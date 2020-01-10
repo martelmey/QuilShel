@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+group 'ca.chalister'
+version '1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.1'
+    // https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20190722'
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-controls
+    compile group: 'org.openjfx', name: 'javafx-controls', version: '14-ea+6'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-graphics
+    compile group: 'org.openjfx', name: 'javafx-graphics', version: '14-ea+6'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-base
+    compile group: 'org.openjfx', name: 'javafx-base', version: '14-ea+6'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-fxml
+    compile group: 'org.openjfx', name: 'javafx-fxml', version: '14-ea+6'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-web
+    compile group: 'org.openjfx', name: 'javafx-web', version: '14-ea+6'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-media
+    compile group: 'org.openjfx', name: 'javafx-media', version: '14-ea+6'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-swing
+    compile group: 'org.openjfx', name: 'javafx-swing', version: '14-ea+6'
+
+}
