@@ -3,73 +3,88 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="startPage" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.Controller">
-
-    <top>
-        <MenuBar>
-            <menus>
-                <Menu fx:id="mainMenu" text="File">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+              <MenuItem mnemonicParsing="false" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Poem">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Edit Title" />
+                  <MenuItem mnemonicParsing="false" text="Edit Author" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Manual" />
+                  <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox prefHeight="250.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="175.0">
+               <children>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
                     <items>
-                        <MenuItem text="New Poem ..." onAction="#showNewPoemWindow"/>
+                      <Button mnemonicParsing="false" text="+ Stanza" />
+                        <Button mnemonicParsing="false" text="- Stanza" />
                     </items>
+                  </ToolBar>
+                  <Label text="Stanzas" />
+                  <ListView prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="175.0">
+               <children>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
                     <items>
-                        <MenuItem fx:id="mainMenuOpen" text="Open ..." onAction="#showOpenPoemWindow"/>
+                      <Button mnemonicParsing="false" text="+ Bar" />
+                        <Button mnemonicParsing="false" text="- Bar" />
                     </items>
+                  </ToolBar>
+                  <Label text="Bars" />
+                  <ListView prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="325.0">
+               <children>
+                  <ToolBar prefHeight="40.0">
                     <items>
-                        <MenuItem text="Save ..." onAction="#showSaveWindow"/>
+                      <Button mnemonicParsing="false" text="+ Measure" />
+                        <Button mnemonicParsing="false" text="- Measure" />
                     </items>
-                    <!--                    <items>-->
-                    <!--                        <MenuItem text="Save As ..." />-->
-                    <!--                    </items>-->
-                    <items>
-                        <MenuItem text="Exit ..." onAction="#handleExit"/>
-                    </items>
-                </Menu>
-            </menus>
-            <Menu text="Poem">
-                <items>
-                    <MenuItem text="New Stanza ..."/>
-                </items>
-                <items>
-                    <MenuItem text="Delete Stanza ..."/>
-                </items>
-                <items>
-                    <MenuItem text="Edit Properties ..."/>
-                </items>
-            </Menu>
-            <Menu text="Stanza">
-                <items>
-                    <MenuItem text="New Bar ..."/>
-                </items>
-                <items>
-                    <MenuItem text="Delete Bar ..."/>
-                </items>
-            </Menu>
-        </MenuBar>
-    </top>
-
-    <left>
-        <ListView fx:id="stanzaListView">
-
-        </ListView>
-    </left>
-
-    <center>
-        <ListView fx:id="barListView">
-
-        </ListView>
-    </center>
-
-    <right>
-        <ListView fx:id="measureListView">
-
-        </ListView>
-    </right>
-
-    <bottom>
-        <HBox>
-            <Label fx:id="titleLabel"/>
-        </HBox>
-    </bottom>
-
-</BorderPane>
+                  </ToolBar>
+                  <Label text="Measure" />
+                  <ListView prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="100.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="229.0" layoutY="14.0" text="/ = stressed * = unstressed" />
+            <SplitMenuButton layoutX="36.0" layoutY="39.0" mnemonicParsing="false" text="Meter">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </SplitMenuButton>
+            <TextField layoutX="113.0" layoutY="39.0" prefHeight="25.0" prefWidth="380.0" />
+            <Button layoutX="498.0" layoutY="39.0" mnemonicParsing="false" text="Append" />
+            <Label layoutX="274.0" layoutY="69.0" text="... */ */ */ ..." />
+         </children></AnchorPane>
+      <AnchorPane prefHeight="20.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="10.0" layoutY="2.0" text=": Status" />
+         </children></AnchorPane>
+   </children>
+</VBox>
