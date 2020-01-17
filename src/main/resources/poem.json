@@ -1,0 +1,19 @@
+{
+  "title" : "Dawn at Morningrise",
+  "author" : "Martel Meyers",
+  "stanzas" : [ {
+    "number" : 1,
+    "bars" : [ {
+      "number" : 1,
+      "measures" : [ {
+        "sentence" : "There's faith again, knocking afresh"
+      }, {
+        "sentence" : "and opening up, with its breath"
+      }, {
+        "sentence" : "silently, in oversized flakes"
+      }, {
+        "sentence" : "fragile windowpanes, dry with ice"
+      } ]
+    } ]
+  } ]
+}

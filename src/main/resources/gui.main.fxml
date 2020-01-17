@@ -3,16 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.Controller">
    <children>
       <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="mainMenu" mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-              <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem fx:id="newMenuItem" mnemonicParsing="false" onAction="#onNewMenuItemAction" text="New" />
+                  <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#onOpenMenuItemAction" text="Open" />
+                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#onSaveMenuItemAction" text="Save" />
+              <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Poem">
@@ -40,7 +40,7 @@
                     </items>
                   </ToolBar>
                   <Label text="Stanzas" />
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="stanzaListView" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="175.0">
@@ -52,7 +52,7 @@
                     </items>
                   </ToolBar>
                   <Label text="Bars" />
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="barListView" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="325.0">
@@ -64,7 +64,7 @@
                     </items>
                   </ToolBar>
                   <Label text="Measure" />
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="measureListView" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
@@ -84,7 +84,8 @@
          </children></AnchorPane>
       <AnchorPane prefHeight="20.0" prefWidth="600.0">
          <children>
-            <Label layoutX="10.0" layoutY="2.0" text=": Status" />
+            <Label fx:id="statusLabel" layoutX="10.0" layoutY="2.0" text=": Status" />
+            <Label fx:id="titleLabel" layoutX="370.0" layoutY="2.0" text="[no poem loaded]" />
          </children></AnchorPane>
    </children>
 </VBox>

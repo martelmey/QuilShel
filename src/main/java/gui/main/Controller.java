@@ -30,13 +30,21 @@ public class Controller {
 
     // Labels
     @FXML
+    private Label statusLabel;
+    @FXML
     private Label titleLabel;
 
     // Menu
     @FXML
     private Menu mainMenu;
     @FXML
-    private MenuItem mainMenuOpen;
+    private MenuItem newMenuItem;
+    @FXML
+    private MenuItem openMenuItem;
+    @FXML
+    private MenuItem saveMenuItem;
+    @FXML
+    private MenuItem exitMenuItem;
 
     // ListViews
     @FXML
@@ -85,14 +93,14 @@ public class Controller {
     }
 
     public void initialize() throws IOException {
-//        data = new PoemData();
-//        Poem poem = data.loadPoem();
-//        load(poem);
+        data = new PoemData();
+        Poem poem = data.loadPoem();
+        load(poem);
     }
 
     // Save - UNFINISHED
     @FXML
-    public void showSaveWindow() {
+    public void onSaveMenuItemAction() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save poem.json File");
         fileChooser.showSaveDialog(primaryStage);
@@ -100,7 +108,7 @@ public class Controller {
 
     // Open - UNFINISHED
     @FXML
-    public void showOpenPoemWindow() throws IOException {
+    public void onOpenMenuItemAction() throws IOException {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Open poem.json File");
@@ -110,7 +118,7 @@ public class Controller {
 
         File file = fileChooser.showOpenDialog(primaryStage);
 
-        mainMenuOpen.setOnAction(new EventHandler<ActionEvent>() {
+        openMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 File file = fileChooser.showOpenDialog(primaryStage);
@@ -128,13 +136,13 @@ public class Controller {
 
     // New - DONE
     @FXML
-    public void showNewPoemWindow() throws IOException {
+    public void onNewMenuItemAction() throws IOException {
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.initOwner(startPage.getScene().getWindow());
+        dialog.initOwner(primaryStage.getScene().getWindow());
         dialog.setTitle("New Blank Poem");
         dialog.setHeaderText("Enter a title and author to start a blank poem");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("gui.new.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/gui.new.fxml"));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());

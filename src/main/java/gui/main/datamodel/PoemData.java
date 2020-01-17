@@ -14,7 +14,7 @@ import java.util.List;
 public class PoemData {
     private static PoemData instance = new PoemData();
 
-    private static final String FILENAME = "poem.json";
+    private static final String FILENAME = "C:\\Users\\Administrator\\IdeaProjects\\QuilShel\\src\\main\\resources\\poem.json";
     private String title = "title";
     private String author = "author";
 
