@@ -9,15 +9,12 @@ import java.util.List;
 public class Measure {
     private String sentence;
 
-    private SimpleStringProperty simpleSentenceProperty = new SimpleStringProperty("");
-
     public Measure() {
 
     }
 
     public Measure(String sentence) {
         this.sentence = sentence;
-        this.simpleSentenceProperty.set(sentence);
     }
 
     public String getSentence() {
@@ -26,7 +23,6 @@ public class Measure {
 
     public void setSentence(String sentence) {
         this.sentence = sentence;
-        this.simpleSentenceProperty.set(sentence);
     }
 
     // From first task in Verse's init method

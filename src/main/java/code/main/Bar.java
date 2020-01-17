@@ -10,19 +10,12 @@ public class Bar {
     private int number;
     private List<Measure> measures = new ArrayList<>();
 
-    private SimpleIntegerProperty simpleNumberProperty = new SimpleIntegerProperty();
-    private SimpleListProperty<Measure> simpleMeasuresProperty = new SimpleListProperty<>();
-
     public Bar() {
 
     }
 
     public List<Measure> getMeasures() {
         return measures;
-    }
-
-    public SimpleListProperty<Measure> getSimpleMeasuresProperty() {
-        return simpleMeasuresProperty;
     }
 
     public void setMeasures(List<Measure> measures) {
@@ -33,13 +26,8 @@ public class Bar {
         return number;
     }
 
-    public SimpleIntegerProperty getSimpleNumberProperty() {
-        return simpleNumberProperty;
-    }
-
     public void setNumber(int number) {
         this.number = number;
-        this.simpleNumberProperty.set(number);
     }
 
     @Override
