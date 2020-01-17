@@ -63,17 +63,33 @@ public class Controller {
     @FXML
     private BorderPane startPage;
 
+    // loads poem object into
+    // UI's ObservableLists;
+    // poem object deserialized
+    // by PoemData, based on
+    // file provided by onOpenMenuAction
     public void load(Poem poem) {
+        // Change titleLabel
         String footer = poem.getTitle() + " by " + poem.getAuthor();
         titleLabel.setText(footer);
+        // Change statusLabel
+        String status = "Poem loaded";
+        statusLabel.setText(status);
+        // Fill Stanza observable list
+        // with objects from List<Stanza>
+        // from poem parameter
         ObservableList<Stanza> stanzas = FXCollections.observableArrayList(data.getStanzas());
         stanzaListView.setItems(stanzas);
 
+        // Filling observable lists
         stanzaListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Stanza>() {
             @Override
             public void changed(ObservableValue<? extends Stanza> observable, Stanza oldValue, Stanza newValue) {
                 if (newValue != null) {
                     Stanza stanza = stanzaListView.getSelectionModel().getSelectedItem();
+                    // Fill Bar observable list
+                    // with objects from List<Bar>
+                    // from selected Stanza object in list
                     ObservableList<Bar> bars = FXCollections.observableArrayList(stanza.getBars());
                     barListView.setItems(bars);
 
@@ -82,6 +98,9 @@ public class Controller {
                         public void changed(ObservableValue<? extends Bar> observable, Bar oldValue, Bar newValue) {
                             if (newValue != null) {
                                 Bar bar = barListView.getSelectionModel().getSelectedItem();
+                                // Fill Measure observable list
+                                // with objects from List<Measure>
+                                // from selected Bar object in list
                                 ObservableList<Measure> measures = FXCollections.observableArrayList(bar.getMeasures());
                                 measureListView.setItems(measures);
                             }
@@ -92,11 +111,11 @@ public class Controller {
         });
     }
 
-    public void initialize() throws IOException {
-        data = new PoemData();
-        Poem poem = data.loadPoem();
-        load(poem);
-    }
+//    public void initialize() throws IOException {
+//        data = new PoemData();
+//        Poem poem = data.loadPoem();
+//        load(poem);
+//    }
 
     // Save - UNFINISHED
     @FXML
@@ -124,7 +143,7 @@ public class Controller {
                 File file = fileChooser.showOpenDialog(primaryStage);
                 if (file != null) {
                     try {
-                        Poem poem = data.loadFile(file);
+                        Poem poem = data.deserialize(file);
                         load(poem);
                     } catch (IOException e) {
                         e.printStackTrace();

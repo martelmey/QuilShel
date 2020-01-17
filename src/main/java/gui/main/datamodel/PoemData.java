@@ -9,8 +9,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import javafx.collections.FXCollections;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.List;
 
+// Does serialization
+// & de-serialization
+// for JSON & POJO poems
 public class PoemData {
     private static PoemData instance = new PoemData();
 
@@ -48,7 +52,7 @@ public class PoemData {
         return poem;
     }
 
-    public Poem loadFile(File file) throws IOException {
+    public Poem deserialize(File file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         InputStream fileInputStream = new FileInputStream(file);
         Poem poem = mapper.readValue(fileInputStream, Poem.class);
@@ -59,7 +63,7 @@ public class PoemData {
         return poem;
     }
 
-    public void savePoem(Poem poem) throws IOException {
+    public void serialize(Poem poem) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         String json = mapper.writeValueAsString(poem);

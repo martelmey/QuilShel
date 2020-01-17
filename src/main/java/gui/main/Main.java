@@ -1,5 +1,6 @@
 package gui.main;
 
+import code.main.Poem;
 import gui.main.datamodel.PoemData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,21 +31,22 @@ public class Main extends Application {
         launch(args);
     }
 
-    @Override
-    public void init() {
-        try {
-            PoemData.getInstance().loadPoem();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());;
-        }
-    }
-
-    @Override
-    public void stop() {
+//    @Override
+//    public void init() {
 //        try {
-//            Serializer.getInstance().savePoem();
+//            PoemData.getInstance().loadPoem();
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());;
+//        }
+//    }
+
+//    @Override
+//    public void stop() {
+//        try {
+//            PoemData.getInstance().serialize();
 //        } catch (IOException e) {
 //            System.out.println(e.getMessage());
 //        }
-    }
+//    }
+
 }
