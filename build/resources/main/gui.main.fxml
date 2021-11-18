@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.Controller">
    <children>
       <MenuBar>
         <menus>
@@ -69,18 +69,18 @@
             </VBox>
          </children>
       </HBox>
-      <AnchorPane prefHeight="100.0" prefWidth="600.0">
+      <AnchorPane prefHeight="199.0" prefWidth="600.0">
          <children>
-            <Label layoutX="229.0" layoutY="14.0" text="/ = stressed * = unstressed" />
-            <SplitMenuButton layoutX="36.0" layoutY="39.0" mnemonicParsing="false" text="Meter">
+            <SplitMenuButton layoutX="38.0" layoutY="87.0" mnemonicParsing="false" text="Meter">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem fx:id="l" mnemonicParsing="false" text="/" />
+                <MenuItem fx:id="lx" mnemonicParsing="false" text="/x" />
               </items>
             </SplitMenuButton>
-            <TextField layoutX="113.0" layoutY="39.0" prefHeight="25.0" prefWidth="380.0" />
-            <Button layoutX="498.0" layoutY="39.0" mnemonicParsing="false" text="Append" />
-            <Label layoutX="274.0" layoutY="69.0" text="... */ */ */ ..." />
+            <TextField layoutX="110.0" layoutY="87.0" prefHeight="25.0" prefWidth="380.0" text="Line" />
+            <Button layoutX="490.0" layoutY="87.0" mnemonicParsing="false" text="+" />
+            <Label layoutX="38.0" layoutY="56.0" text="Syllables: " />
+            <Label fx:id="syllables" layoutX="96.0" layoutY="56.0" />
          </children></AnchorPane>
       <AnchorPane prefHeight="20.0" prefWidth="600.0">
          <children>

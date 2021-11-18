@@ -28,6 +28,14 @@ public class Controller {
     // Stages
     private Stage primaryStage = Main.getPrimaryStage();
 
+    // Meter dropdown
+    @FXML
+    private MenuItem l;
+    @FXML
+    private MenuItem lx;
+    @FXML
+    private Label syllables;
+
     // Labels
     @FXML
     private Label statusLabel;

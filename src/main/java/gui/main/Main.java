@@ -1,10 +1,14 @@
 package gui.main;
 
+import code.main.Word;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -23,8 +27,14 @@ public class Main extends Application {
         return primaryStage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) throws IOException {
+        //launch(args);
+        Word word = new Word("inevitable");
+        System.out.println(word.getWord());
+        //System.out.println(word.getUrl());
+        //System.out.println(word.getResponse());
+        //ObjectMapper mapper = new ObjectMapper();
+        System.out.println(word.getSyllables());
     }
 
 //    @Override
