@@ -14,6 +14,12 @@ public class Main extends Application {
 
     private static Stage primaryStage;
 
+    public static void main(String[] args) throws IOException {
+        //launch(args);
+        Word word = new Word("inevitable");
+        word.getWord();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
@@ -25,16 +31,6 @@ public class Main extends Application {
 
     public static Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    public static void main(String[] args) throws IOException {
-        //launch(args);
-        Word word = new Word("inevitable");
-        System.out.println(word.getWord());
-        //System.out.println(word.getUrl());
-        //System.out.println(word.getResponse());
-        //ObjectMapper mapper = new ObjectMapper();
-        System.out.println(word.getSyllables());
     }
 
 //    @Override

@@ -9,42 +9,48 @@ import java.io.IOException;
 
 public class Word {
     private String word;
-    private int syllables;
+    private Syllables syllables;
 
-    public Response getSyllables() throws IOException {
+    public Word(String word) throws IOException {
+        this.word = word;
         String url =
                 "https://wordsapiv1.p.rapidapi.com/words/"
                         + word +
                         "/syllables"
                 ;
         OkHttpClient client = new OkHttpClient();
-
         Request request = new Request.Builder()
                 .url(url)
                 .get()
                 .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
                 .build();
-
         Response response = client.newCall(request).execute();
-
-        return response;
-    }
-
-//    public String getUrl() {
-//        return url;
-//    }
-
-//    public Response getResponse() {
-//        return response;
-//    }
-
-    public Word(String word) throws IOException {
-        this.word = word;
-
+        ObjectMapper objectMapper = new ObjectMapper();
+        Syllables syllables = objectMapper.readValue(response.body().string(), Syllables.class);
     }
 
     public String getWord() {
         return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setSyllables(Syllables syllables) {
+        this.syllables = syllables;
+    }
+
+    public Syllables getSyllables() {
+        return syllables;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "word='" + word + '\'' +
+                ", syllables=" + syllables +
+                '}';
     }
 }
