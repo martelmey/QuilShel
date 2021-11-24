@@ -13,6 +13,10 @@ public class Word {
 
     public Word(String word) throws IOException {
         this.word = word;
+        //this.syllables = setSyllables(word);
+    }
+
+    public Syllables setSyllables(String word) throws IOException {
         String url =
                 "https://wordsapiv1.p.rapidapi.com/words/"
                         + word +
@@ -27,7 +31,11 @@ public class Word {
                 .build();
         Response response = client.newCall(request).execute();
         ObjectMapper objectMapper = new ObjectMapper();
-        Syllables syllables = objectMapper.readValue(response.body().string(), Syllables.class);
+        return objectMapper.readValue(response.body().string(), Syllables.class);
+    }
+
+    public String getSyllables() {
+        return syllables.toString();
     }
 
     public String getWord() {
@@ -36,14 +44,6 @@ public class Word {
 
     public void setWord(String word) {
         this.word = word;
-    }
-
-    public void setSyllables(Syllables syllables) {
-        this.syllables = syllables;
-    }
-
-    public Syllables getSyllables() {
-        return syllables;
     }
 
     @Override

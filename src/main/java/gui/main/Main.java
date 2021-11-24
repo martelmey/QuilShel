@@ -17,7 +17,8 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         //launch(args);
         Word word = new Word("inevitable");
-        word.getWord();
+        System.out.println(word.getWord());
+        //System.out.println(word.getSyllables());
     }
 
     @Override
