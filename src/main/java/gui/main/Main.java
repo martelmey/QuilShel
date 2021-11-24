@@ -16,9 +16,11 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         //launch(args);
-        Word word = new Word("inevitable");
+        // Syllables test
+        Word word = new Word("inevitable",0);
         System.out.println(word.getWord());
         //System.out.println(word.getSyllables());
+        // Rhymes test
     }
 
     @Override
