@@ -13,6 +13,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,51 @@ public class Main extends Application {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
         //launch(args);
-        // Syllables test
-        Word word = new Word("inevitable",1);
-        System.out.println(word.getRhymes());
-//        System.out.println(word.getWord());
-        //System.out.println(word.getSyllables());
-        // Rhymes test
+
+        // Main word gen test
+        Word word = new Word("inevitable");
+        System.out.println(word.toString());
+
+        // Test setSyllables for Word.class
+//        OkHttpClient client = new OkHttpClient();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        Request request = new Request.Builder()
+//                .url("https://wordsapiv1.p.rapidapi.com/words/inevitable/syllables")
+//                .get()
+//                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
+//                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
+//                .build();
+//        Response response = client.newCall(request).execute();
+//        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        //System.out.println(rootNode);
+        //JsonNode syllablesNode = rootNode.path("syllables");
+        //System.out.println(syllablesNode);
+
+        /**
+         * convert this to int and get:
+         * private int syllableCount;
+         */
+        //JsonNode countNode = syllablesNode.path("count");
+        //System.out.println("countNode = " + countNode);
+        //int syllableCount = countNode.asInt();
+        //System.out.println("syllableCount = " + syllableCount);
+        /**
+         * private List<String> syllables;
+         */
+//        JsonNode listNode = syllablesNode.path("list");
+//        System.out.println(listNode);
+//        List<String> syllables = new ArrayList<>();
+//        BreakIterator breakIterator = BreakIterator.getWordInstance();
+//        breakIterator.setText(listNode.toString());
+//        int lastIndex = breakIterator.first();
+//        while(BreakIterator.DONE != lastIndex) {
+//            int firstIndex = lastIndex;
+//            lastIndex = breakIterator.next();
+//            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(listNode.toString().charAt(firstIndex))) {
+//                syllables.add(listNode.toString().substring(firstIndex, lastIndex));
+//            }
+//        }
+//        System.out.println(syllables.toString());
     }
 
     @Override
