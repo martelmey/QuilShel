@@ -13,6 +13,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -37,8 +40,22 @@ public class Main extends Application {
         Response response = client.newCall(request).execute();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode wordNode = rootNode.path("word");
-        System.out.println("word = " + wordNode.asText());
+        JsonNode rhymesNode = rootNode.path("rhymes");
+        JsonNode allNode = rhymesNode.path("all");
+
+        List<String> rhymes = new ArrayList<>();
+
+        BreakIterator breakIterator = BreakIterator.getWordInstance();
+        breakIterator.setText(allNode.toString());
+        int lastIndex = breakIterator.first();
+        while(BreakIterator.DONE != lastIndex) {
+            int firstIndex = lastIndex;
+            lastIndex = breakIterator.next();
+            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(allNode.toString().charAt(firstIndex))) {
+                rhymes.add(allNode.toString().substring(firstIndex, lastIndex));
+            }
+        }
+        System.out.println(rhymes.toString());
     }
 
     @Override
