@@ -6,12 +6,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Word {
-    private int mode;
     private String word;
     private Syllables syllables;
-    private String[] rhymes;
+    private Rhymes rhymes;
 
     /**
      * mode = 0 is syllables
@@ -47,7 +47,7 @@ public class Word {
         return objectMapper.readValue(response.body().string(), Syllables.class);
     }
 
-    public String[] setRhymes(String word, String url) throws IOException {
+    public Rhymes setRhymes(String word, String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -57,7 +57,7 @@ public class Word {
                 .build();
         Response response = client.newCall(request).execute();
         ObjectMapper objectMapper = new ObjectMapper();
-        String[] all = objectMapper.readValue(response.body().string(), String[])
+        return objectMapper.readValue(response.body().string(), Rhymes.class);
     }
 
     public String getSyllables() {
