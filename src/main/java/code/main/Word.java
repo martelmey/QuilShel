@@ -1,22 +1,22 @@
 package code.main;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.text.BreakIterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Word {
     private String word;
-    private Syllables syllables;
-    private Rhymes rhymes;
+    private List<String> rhymes = new ArrayList<>();
 
-    /**
-     * mode = 0 is syllables
-     * mode = 1 is rhymes
-     */
+    private final OkHttpClient client = new OkHttpClient();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Word(String word, int mode) throws IOException {
         this.word = word;
@@ -25,7 +25,7 @@ public class Word {
         switch(mode) {
             case 0:
                 urlFinal = urlBase + "/syllables";
-                this.syllables = setSyllables(word, urlFinal);
+                //this.syllables = setSyllables(word, urlFinal);
                 break;
             case 1:
                 urlFinal = urlBase + "/rhymes";
@@ -35,7 +35,6 @@ public class Word {
     }
 
     public Syllables setSyllables(String word, String url) throws IOException {
-        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -43,12 +42,10 @@ public class Word {
                 .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
                 .build();
         Response response = client.newCall(request).execute();
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(response.body().string(), Syllables.class);
     }
 
-    public Rhymes setRhymes(String word, String url) throws IOException {
-        OkHttpClient client = new OkHttpClient();
+    public List<String> setRhymes(String word, String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -56,13 +53,30 @@ public class Word {
                 .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
                 .build();
         Response response = client.newCall(request).execute();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(response.body().string(), Rhymes.class);
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        JsonNode rhymesNode = rootNode.path("rhymes");
+        JsonNode allNode = rhymesNode.path("all");
+        List<String> rhymes = new ArrayList<>();
+        BreakIterator breakIterator = BreakIterator.getWordInstance();
+        breakIterator.setText(allNode.toString());
+        int lastIndex = breakIterator.first();
+        while(BreakIterator.DONE != lastIndex) {
+            int firstIndex = lastIndex;
+            lastIndex = breakIterator.next();
+            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(allNode.toString().charAt(firstIndex))) {
+                rhymes.add(allNode.toString().substring(firstIndex, lastIndex));
+            }
+        }
+        return rhymes;
     }
 
-    public String getSyllables() {
-        return syllables.toString();
+    public List<String> getRhymes() {
+        return rhymes;
     }
+
+    //    public String getSyllables() {
+//        return syllables.toString();
+//    }
 
     public String getWord() {
         return word;
@@ -72,11 +86,11 @@ public class Word {
         this.word = word;
     }
 
-    @Override
-    public String toString() {
-        return "Word{" +
-                "word='" + word + '\'' +
-                ", syllables=" + syllables +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Word{" +
+//                "word='" + word + '\'' +
+//                ", syllables=" + syllables +
+//                '}';
+//    }
 }
