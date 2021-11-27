@@ -27,49 +27,33 @@ public class Main extends Application {
         //launch(args);
 
         // Main word gen test
-        Word word = new Word("inevitable");
+        Word word = new Word("commit");
         System.out.println(word.toString());
 
-        // Test setSyllables for Word.class
 //        OkHttpClient client = new OkHttpClient();
 //        ObjectMapper objectMapper = new ObjectMapper();
+//        String url = "https://wordsapiv1.p.rapidapi.com/words/lovely/synonyms";
 //        Request request = new Request.Builder()
-//                .url("https://wordsapiv1.p.rapidapi.com/words/inevitable/syllables")
+//                .url(url)
 //                .get()
 //                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
 //                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
 //                .build();
 //        Response response = client.newCall(request).execute();
 //        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        //System.out.println(rootNode);
-        //JsonNode syllablesNode = rootNode.path("syllables");
-        //System.out.println(syllablesNode);
-
-        /**
-         * convert this to int and get:
-         * private int syllableCount;
-         */
-        //JsonNode countNode = syllablesNode.path("count");
-        //System.out.println("countNode = " + countNode);
-        //int syllableCount = countNode.asInt();
-        //System.out.println("syllableCount = " + syllableCount);
-        /**
-         * private List<String> syllables;
-         */
-//        JsonNode listNode = syllablesNode.path("list");
-//        System.out.println(listNode);
-//        List<String> syllables = new ArrayList<>();
+//        JsonNode synonymsNode = rootNode.path("synonyms");
+//        List<String> synonyms = new ArrayList<>();
 //        BreakIterator breakIterator = BreakIterator.getWordInstance();
-//        breakIterator.setText(listNode.toString());
+//        breakIterator.setText(synonymsNode.toString());
 //        int lastIndex = breakIterator.first();
 //        while(BreakIterator.DONE != lastIndex) {
 //            int firstIndex = lastIndex;
 //            lastIndex = breakIterator.next();
-//            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(listNode.toString().charAt(firstIndex))) {
-//                syllables.add(listNode.toString().substring(firstIndex, lastIndex));
+//            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(synonymsNode.toString().charAt(firstIndex))) {
+//                synonyms.add(synonymsNode.toString().substring(firstIndex, lastIndex));
 //            }
 //        }
-//        System.out.println(syllables.toString());
+//        System.out.println(synonyms);
     }
 
     @Override
