@@ -1,0 +1,30 @@
+poem {
+    title: broken westholme portrait
+    author: martel meyers
+    stanzas {
+        1 {
+            measures {
+                1 {
+                    words {
+                        1 {
+                            word: i'm
+                            rhymes:
+                            syllables:
+                            syllablesCount:
+                            synonyms:
+                            meter:
+                        }
+                        2 {
+                            word: inevitable
+                            rhymes: [evitable, inevitable]
+                            syllables: [in, ev, i, ta, ble]
+                            syllablesCount: 5
+                            synonyms: []
+                            meter:
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

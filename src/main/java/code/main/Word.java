@@ -16,7 +16,7 @@ public class Word {
     private final List<String> rhymes;
     private final List<String> syllables;
     private int syllablesCount;
-    private List<String> synonyms;
+    private final List<String> synonyms;
 
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();

@@ -30,6 +30,7 @@ public class Main extends Application {
         Word word = new Word("commit");
         System.out.println(word.toString());
 
+        // test endpoints & deserialization
 //        OkHttpClient client = new OkHttpClient();
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        String url = "https://wordsapiv1.p.rapidapi.com/words/lovely/synonyms";
