@@ -3,26 +3,40 @@ poem {
     author: martel meyers
     stanzas {
         1 {
+            number: 1
+            countMeasures: 4
             measures {
                 1 {
+                    number: 1
+                    countSyllables: 6
                     words {
                         1 {
                             word: i'm
                             rhymes:
                             syllables:
-                            syllablesCount:
+                            syllablesCount: 1
                             synonyms:
                             meter:
                         }
                         2 {
-                            word: inevitable
-                            rhymes: [evitable, inevitable]
-                            syllables: [in, ev, i, ta, ble]
+                            word: inevitable:
                             syllablesCount: 5
-                            synonyms: []
-                            meter:
                         }
                     }
+                }
+                2 {
+                    number: 2
+                    countSyllables: 8
+                    words {
+                        1 {
+                            word: to
+                            syllablesCount: 1
+                        }
+                        2 {
+                            word: see
+                            syllablesCount: 1
+                        }
+                        3 {...} // until 8 syllables satisfied
                 }
             }
         }
