@@ -42,13 +42,12 @@ public class Main extends Application {
                 .build();
         Response response = client.newCall(request).execute();
         JsonNode rootNode = objectMapper.readTree(response.body().string());
-        System.out.print(rootNode);
+        //System.out.print(rootNode);
 
-        Map<String,String> map = new HashMap<>();
-        addKeys("", rootNode, map, new ArrayList<>());
-
-        map.entrySet()
-                .forEach(System.out::println);
+        // testCreatingKeyValues()
+        Map<String, String> map = new HashMap<String, String>();
+        addKeys("", rootNode, map);
+        //System.out.println(map);
 
 //        List<String> synonyms = new ArrayList<>();
 //        BreakIterator breakIterator = BreakIterator.getWordInstance();
@@ -82,31 +81,22 @@ public class Main extends Application {
 //        System.out.println(synonyms);
     }
 
-    public static void addKeys(String currentPath, JsonNode jsonNode, Map<String,String> map, List<Integer> suffix) {
+    public static void addKeys(String currentPath, JsonNode jsonNode, Map<String, String> map) {
         if(jsonNode.isObject()) {
             ObjectNode objectNode = (ObjectNode) jsonNode;
-            Iterator<Map.Entry<String,JsonNode>> iter = objectNode.fields();
-            String pathPrefix = currentPath.isEmpty() ? "" : currentPath + "-";
+            Iterator<Map.Entry<String, JsonNode>> iter = objectNode.fields();
+            String pathPrefix = currentPath.isEmpty() ? "" : currentPath;
             while(iter.hasNext()) {
                 Map.Entry<String, JsonNode> entry = iter.next();
-                addKeys(pathPrefix + entry.getKey(), entry.getValue(), map, suffix);
+                addKeys(pathPrefix + entry.getKey(), entry.getValue(), map);
             }
         } else if(jsonNode.isArray()) {
             ArrayNode arrayNode = (ArrayNode) jsonNode;
             for(int i = 0; i < arrayNode.size(); i++) {
-                suffix.add(i + 1);
-                addKeys(currentPath, arrayNode.get(i), map, suffix);
-                if(i + 1 < arrayNode.size()) {
-                    suffix.remove(arrayNode.size() - 1);
-                }
+                System.out.println(arrayNode.get(i));
+                addKeys(currentPath + "[" + i + "]", arrayNode.get(i), map);
             }
         } else if(jsonNode.isValueNode()) {
-            if(currentPath.contains("-")) {
-                for(int i = 0; i < suffix.size(); i++) {
-                    currentPath += "-" + suffix.get(i);
-                }
-                suffix = new ArrayList<>();
-            }
             ValueNode valueNode = (ValueNode) jsonNode;
             map.put(currentPath, valueNode.asText());
         }
