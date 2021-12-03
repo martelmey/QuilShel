@@ -38,47 +38,39 @@ public class Main extends Application {
 
         // data muse
         Request request = new Request.Builder()
-                .url("https://api.datamuse.com/words?rel_syn=wait")
+                .url("https://api.datamuse.com/words?ml=flower&qe=ml&md=r&max=5")
                 .build();
         Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        //System.out.print(rootNode);
 
+        // as JsonNode
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        JsonNode resultOne = rootNode.path(1);
+        JsonNode tagsNode = resultOne.path("tags");
+        int proIndx = tagsNode.size()-1;
+        JsonNode proNode = tagsNode.path(proIndx);
+
+        //System.out.println(rootNode);
+        //System.out.println(rootNode.get(0));
+        //System.out.println(resultOne);
+        //System.out.println(tagsNode);
+        //System.out.println(tagsNode.size());
+        System.out.println(proNode);
+
+//        System.out.println(rootNode.get("word").get(0));
+//        for(int i = 0; i < rootNode.size(); i++) {
+//            System.out.println(rootNode.get(i));
+//        }
+
+        // as ArrayNode
         // testCreatingKeyValues()
-        Map<String, String> map = new HashMap<String, String>();
-        addKeys("", rootNode, map);
-        //System.out.println(map);
+//        ArrayNode arrayNode = (ArrayNode) rootNode;
+//        for(int i = 0; i < arrayNode.size(); i++) {
+//            System.out.println(arrayNode.get(i));
+//        }
 
 //        List<String> synonyms = new ArrayList<>();
 //        BreakIterator breakIterator = BreakIterator.getWordInstance();
 //        breakIterator.setText(rootNode);
-
-        // words api synonyms
-//        Request request = new Request.Builder()
-//                .url("https://wordsapiv1.p.rapidapi.com/words/lovely/synonyms")
-//                .get()
-//                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
-//                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
-//                .build();
-//        Response response = client.newCall(request).execute();
-//        JsonNode rootNode = objectMapper.readTree(response.body().string());
-//        JsonNode wordNode = rootNode.path("word");
-//        System.out.println(rootNode);
-//        System.out.println(wordNode);
-
-//        JsonNode synonymsNode = rootNode.path("synonyms");
-//        List<String> synonyms = new ArrayList<>();
-//        BreakIterator breakIterator = BreakIterator.getWordInstance();
-//        breakIterator.setText(synonymsNode.toString());
-//        int lastIndex = breakIterator.first();
-//        while(BreakIterator.DONE != lastIndex) {
-//            int firstIndex = lastIndex;
-//            lastIndex = breakIterator.next();
-//            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(synonymsNode.toString().charAt(firstIndex))) {
-//                synonyms.add(synonymsNode.toString().substring(firstIndex, lastIndex));
-//            }
-//        }
-//        System.out.println(synonyms);
     }
 
     public static void addKeys(String currentPath, JsonNode jsonNode, Map<String, String> map) {
@@ -93,7 +85,6 @@ public class Main extends Application {
         } else if(jsonNode.isArray()) {
             ArrayNode arrayNode = (ArrayNode) jsonNode;
             for(int i = 0; i < arrayNode.size(); i++) {
-                System.out.println(arrayNode.get(i));
                 addKeys(currentPath + "[" + i + "]", arrayNode.get(i), map);
             }
         } else if(jsonNode.isValueNode()) {
