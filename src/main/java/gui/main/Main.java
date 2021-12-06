@@ -39,7 +39,7 @@ public class Main extends Application {
 
         // data muse
         Request request = new Request.Builder()
-                .url("https://api.datamuse.com/words?ml=flower&qe=ml&md=r&max=5")
+                .url("https://api.datamuse.com/words?ml=renewal&qe=ml&md=r&max=5")
                 .build();
         Response response = client.newCall(request).execute();
 
@@ -52,27 +52,47 @@ public class Main extends Application {
         JsonNode proNode = tagsNode.path(proIndx);
 
         // iterate proNode, get ints
-        // v1
-//        breakIterator.setText(proNode.toString());
+        // convert ints to * or /
+        String meterString = proNode.toString().replaceAll("[^\\d]", "");
+        List<String> meterList = new ArrayList<>();
+
+        for(int i = 0; i < meterString.length(); i++) {
+            char car = meterString.charAt(i);
+            int value = Character.getNumericValue(car);
+            System.out.println("car is: "+car);
+            System.out.println("value is: "+value);
+            if(value==1) {
+                System.out.println("assign: /");
+                meterList.add("/");
+            } else {
+                System.out.println("assign: *");
+                meterList.add("*");
+            }
+            System.out.println();
+        }
+        System.out.println("meterList: "+meterList);
+
+//        List<String> meterArray = new ArrayList<>();
+//        breakIterator.setText(meterInts);
 //        int lastIndex = breakIterator.first();
 //        while(BreakIterator.DONE != lastIndex) {
 //            int firstIndex = lastIndex;
 //            lastIndex = breakIterator.next();
-//            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(proNode.toString().charAt(firstIndex))) {
-//                System.out.println(proNode.toString().substring(firstIndex, lastIndex));
+//            if(lastIndex != BreakIterator.DONE && Character.isDigit(meterInts.charAt(firstIndex))) {
+//                System.out.println(meterInts.substring(firstIndex, lastIndex));
+//                meterArray.add(meterInts.substring(firstIndex, lastIndex));
 //            }
 //        }
-        // v2
-        String meter = proNode.toString().replaceAll("[^\\d]", "");
 
         //System.out.println(rootNode);
         //System.out.println(rootNode.get(0));
         //System.out.println(resultOne);
         //System.out.println(tagsNode);
         //System.out.println(tagsNode.size());
-        System.out.println(synNode);
-        System.out.println(proNode);
-        System.out.println(meter);
+        //System.out.println("synNode: "+synNode);
+        System.out.println("proNode: "+proNode);
+        System.out.println("meterString: "+meterString);
+        //System.out.println("meterArray: "+meterArray);
 
 //        System.out.println(rootNode.get("word").get(0));
 //        for(int i = 0; i < rootNode.size(); i++) {
