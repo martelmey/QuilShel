@@ -35,6 +35,7 @@ public class Main extends Application {
         // test endpoints & deserialization
         OkHttpClient client = new OkHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
+        BreakIterator breakIterator = BreakIterator.getWordInstance();
 
         // data muse
         Request request = new Request.Builder()
@@ -44,17 +45,34 @@ public class Main extends Application {
 
         // as JsonNode
         JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode resultOne = rootNode.path(1);
+        JsonNode resultOne = rootNode.path(0);
+        JsonNode synNode = resultOne.path("word");
         JsonNode tagsNode = resultOne.path("tags");
         int proIndx = tagsNode.size()-1;
         JsonNode proNode = tagsNode.path(proIndx);
+
+        // iterate proNode, get ints
+        // v1
+//        breakIterator.setText(proNode.toString());
+//        int lastIndex = breakIterator.first();
+//        while(BreakIterator.DONE != lastIndex) {
+//            int firstIndex = lastIndex;
+//            lastIndex = breakIterator.next();
+//            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(proNode.toString().charAt(firstIndex))) {
+//                System.out.println(proNode.toString().substring(firstIndex, lastIndex));
+//            }
+//        }
+        // v2
+        String meter = proNode.toString().replaceAll("[^\\d]", "");
 
         //System.out.println(rootNode);
         //System.out.println(rootNode.get(0));
         //System.out.println(resultOne);
         //System.out.println(tagsNode);
         //System.out.println(tagsNode.size());
+        System.out.println(synNode);
         System.out.println(proNode);
+        System.out.println(meter);
 
 //        System.out.println(rootNode.get("word").get(0));
 //        for(int i = 0; i < rootNode.size(); i++) {
