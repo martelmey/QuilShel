@@ -29,21 +29,18 @@ public class Main extends Application {
         //launch(args);
 
         // Main word gen test
-        //Word word = new Word("commit");
-        //System.out.println(word.toString());
+        Word word = new Word("renewal");
+        System.out.println(word.toString());
 
         // test endpoints & deserialization
         OkHttpClient client = new OkHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
-        BreakIterator breakIterator = BreakIterator.getWordInstance();
 
         // data muse
         Request request = new Request.Builder()
                 .url("https://api.datamuse.com/words?ml=renewal&qe=ml&md=r&max=5")
                 .build();
         Response response = client.newCall(request).execute();
-
-        // as JsonNode
         JsonNode rootNode = objectMapper.readTree(response.body().string());
         JsonNode resultOne = rootNode.path(0);
         JsonNode synNode = resultOne.path("word");
@@ -54,61 +51,21 @@ public class Main extends Application {
         // iterate proNode, get ints
         // convert ints to * or /
         String meterString = proNode.toString().replaceAll("[^\\d]", "");
-        List<String> meterList = new ArrayList<>();
-
+        List<String> meter = new ArrayList<>();
         for(int i = 0; i < meterString.length(); i++) {
-            char car = meterString.charAt(i);
-            int value = Character.getNumericValue(car);
-            System.out.println("car is: "+car);
-            System.out.println("value is: "+value);
-            if(value==1) {
-                System.out.println("assign: /");
-                meterList.add("/");
+            char charValue = meterString.charAt(i);
+            int intValue = Character.getNumericValue(charValue);
+//            System.out.println("char is: "+charValue);
+//            System.out.println("int is: "+intValue);
+            if(intValue==1) {
+                meter.add("/");
             } else {
-                System.out.println("assign: *");
-                meterList.add("*");
+                meter.add("*");
             }
-            System.out.println();
         }
-        System.out.println("meterList: "+meterList);
-
-//        List<String> meterArray = new ArrayList<>();
-//        breakIterator.setText(meterInts);
-//        int lastIndex = breakIterator.first();
-//        while(BreakIterator.DONE != lastIndex) {
-//            int firstIndex = lastIndex;
-//            lastIndex = breakIterator.next();
-//            if(lastIndex != BreakIterator.DONE && Character.isDigit(meterInts.charAt(firstIndex))) {
-//                System.out.println(meterInts.substring(firstIndex, lastIndex));
-//                meterArray.add(meterInts.substring(firstIndex, lastIndex));
-//            }
-//        }
-
-        //System.out.println(rootNode);
-        //System.out.println(rootNode.get(0));
-        //System.out.println(resultOne);
-        //System.out.println(tagsNode);
-        //System.out.println(tagsNode.size());
-        //System.out.println("synNode: "+synNode);
-        System.out.println("proNode: "+proNode);
-        System.out.println("meterString: "+meterString);
-        //System.out.println("meterArray: "+meterArray);
-
-//        System.out.println(rootNode.get("word").get(0));
-//        for(int i = 0; i < rootNode.size(); i++) {
-//            System.out.println(rootNode.get(i));
-//        }
-
-        // as ArrayNode
-        // testCreatingKeyValues()
-//        ArrayNode arrayNode = (ArrayNode) rootNode;
-//        for(int i = 0; i < arrayNode.size(); i++) {
-//            System.out.println(arrayNode.get(i));
-//        }
-
-//        List<String> synonyms = new ArrayList<>();
-//        BreakIterator breakIterator = BreakIterator.getWordInstance();
-//        breakIterator.setText(rootNode);
+//        System.out.println("meterList: "+meter);
+//        System.out.println("proNode: "+proNode);
+//        System.out.println("meterString: "+meterString);
     }
 
     public static void addKeys(String currentPath, JsonNode jsonNode, Map<String, String> map) {
