@@ -71,11 +71,6 @@ public class Controller {
     @FXML
     private BorderPane startPage;
 
-    // loads poem object into
-    // UI's ObservableLists;
-    // poem object deserialized
-    // by PoemData, based on
-    // file provided by onOpenMenuAction
     public void load(Poem poem) {
         // Change titleLabel
         String footer = poem.getTitle() + " by " + poem.getAuthor();

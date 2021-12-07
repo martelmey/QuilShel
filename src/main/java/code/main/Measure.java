@@ -17,15 +17,6 @@ public class Measure {
         this.sentence = sentence;
     }
 
-    public String getSentence() {
-        return sentence;
-    }
-
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
-    }
-
-    // From first task in Verse's init method
     private List<String> pullWords(String sentence) {
         List<String> words = new ArrayList<>();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
@@ -50,6 +41,14 @@ public class Measure {
         for (String word : pulledWords) {
 
         }
+    }
+
+    public String getSentence() {
+        return sentence;
+    }
+
+    public void setSentence(String sentence) {
+        this.sentence = sentence;
     }
 
     @Override

@@ -24,74 +24,20 @@ public class Main extends Application {
 
     private static Stage primaryStage;
 
-    @SuppressWarnings("unchecked")
     public static void main(String[] args) throws IOException {
-        //launch(args);
+        launch(args);
 
         // Main word gen test
-        Word word = new Word("renewal");
-        System.out.println(word.toString());
+//        Word word = new Word("renewal");
+//        System.out.println(word.toString());
 
-        // test endpoints & deserialization
-        OkHttpClient client = new OkHttpClient();
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // data muse
-        Request request = new Request.Builder()
-                .url("https://api.datamuse.com/words?ml=renewal&qe=ml&md=r&max=5")
-                .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode resultOne = rootNode.path(0);
-        JsonNode synNode = resultOne.path("word");
-        JsonNode tagsNode = resultOne.path("tags");
-        int proIndx = tagsNode.size()-1;
-        JsonNode proNode = tagsNode.path(proIndx);
-
-        // iterate proNode, get ints
-        // convert ints to * or /
-        String meterString = proNode.toString().replaceAll("[^\\d]", "");
-        List<String> meter = new ArrayList<>();
-        for(int i = 0; i < meterString.length(); i++) {
-            char charValue = meterString.charAt(i);
-            int intValue = Character.getNumericValue(charValue);
-//            System.out.println("char is: "+charValue);
-//            System.out.println("int is: "+intValue);
-            if(intValue==1) {
-                meter.add("/");
-            } else {
-                meter.add("*");
-            }
-        }
-//        System.out.println("meterList: "+meter);
-//        System.out.println("proNode: "+proNode);
-//        System.out.println("meterString: "+meterString);
-    }
-
-    public static void addKeys(String currentPath, JsonNode jsonNode, Map<String, String> map) {
-        if(jsonNode.isObject()) {
-            ObjectNode objectNode = (ObjectNode) jsonNode;
-            Iterator<Map.Entry<String, JsonNode>> iter = objectNode.fields();
-            String pathPrefix = currentPath.isEmpty() ? "" : currentPath;
-            while(iter.hasNext()) {
-                Map.Entry<String, JsonNode> entry = iter.next();
-                addKeys(pathPrefix + entry.getKey(), entry.getValue(), map);
-            }
-        } else if(jsonNode.isArray()) {
-            ArrayNode arrayNode = (ArrayNode) jsonNode;
-            for(int i = 0; i < arrayNode.size(); i++) {
-                addKeys(currentPath + "[" + i + "]", arrayNode.get(i), map);
-            }
-        } else if(jsonNode.isValueNode()) {
-            ValueNode valueNode = (ValueNode) jsonNode;
-            map.put(currentPath, valueNode.asText());
-        }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui.word.fxml"));
         primaryStage.setTitle("QuilShel");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
