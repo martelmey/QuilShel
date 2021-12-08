@@ -1,14 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.main.WordController"
-            prefHeight="600.0" prefWidth="400.0">
-
-</AnchorPane>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.WordController">
+   <children>
+      <AnchorPane prefHeight="39.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="6.0" text="Word:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="wordValue" layoutX="86.0" text="...">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="203.0" text="Syllables:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="syllablesCount" layoutX="308.0" text="0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="354.0" text="Meter:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="429.0" text="---">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <Separator prefWidth="600.0" />
+      <HBox prefHeight="283.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="278.0" prefWidth="302.0">
+               <children>
+                  <Label text="Syllables">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ListView prefHeight="294.0" prefWidth="240.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="278.0" prefWidth="295.0">
+               <children>
+                  <Label text="Rhymes">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ListView prefHeight="294.0" prefWidth="295.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="73.0" prefWidth="600.0">
+         <children>
+            <TextField fx:id="inputWord" layoutX="14.0" layoutY="24.0" onKeyReleased="#handleKeyReleased" prefHeight="26.0" prefWidth="295.0" promptText="Type word here" />
+            <Button fx:id="createWord" layoutX="316.0" layoutY="24.0" mnemonicParsing="false" onAction="#onButtonClicked" text="Create" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
