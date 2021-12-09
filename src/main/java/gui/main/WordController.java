@@ -41,7 +41,7 @@ public class WordController {
     public void onButtonClicked() throws IOException {
         /**
          * TESTS
-         * 1. check it's a real word
+         * 1. remove whitespace from inputWord.getText();
          */
         Word word = new Word(inputWord.getText());
         System.out.println(word.toString());

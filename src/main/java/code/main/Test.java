@@ -11,7 +11,8 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Word {
+public class Test {
+
     private String word;
     private List<String> rhymes;
     private List<String> syllables;
@@ -22,39 +23,29 @@ public class Word {
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Word(String word) throws IOException {
-        this.word = word;
-        String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
-        String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
-        this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
-        this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
-        this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-        this.meter = setMeter(urlBase_Datamuse);
+    public Test(String word) throws IOException {
+        /**
+         * TESTS
+         * 1. letters only [done]
+         * 2. >=2 letters [done]
+         * 3. is dictionary word [done]
+         * 4. make lowercase [done]
+         */
+        if (isLetter(word)) {
+            if (word.length() > 1) {
+                word = word.toLowerCase();
+                if (isDictionaryWord(word)) {
+                    this.word = word;
+                    String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
+                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
+                    this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
+                    this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
+                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
+                    this.meter = setMeter(urlBase_Datamuse);
+                }
+            }
+        }
     }
-
-//    public Word(String word) throws IOException {
-//        /**
-//         * TESTS
-//         * 1. letters only [done]
-//         * 2. >=2 letters [done]
-//         * 3. is dictionary word [done]
-//         * 4. make lowercase [done]
-//         */
-//        if(isLetter(word)) {
-//            if(word.length()>1) {
-//                word = word.toLowerCase();
-//                if(isDictionaryWord(word)) {
-//                    this.word = word;
-//                    String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
-//                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
-//                    this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
-//                    this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
-//                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-//                    this.meter = setMeter(urlBase_Datamuse);
-//                }
-//            }
-//        }
-//    }
 
     private boolean isDictionaryWord(String word) throws IOException {
         Request request = new Request.Builder()
@@ -185,30 +176,6 @@ public class Word {
             }
         }
         return synonyms;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public List<String> getRhymes() {
-        return rhymes;
-    }
-
-    public List<String> getSyllables() {
-        return syllables;
-    }
-
-    public int getSyllablesCount() {
-        return syllablesCount;
-    }
-
-    public List<String> getSynonyms() {
-        return synonyms;
-    }
-
-    public List<String> getMeter() {
-        return meter;
     }
 
     @Override
