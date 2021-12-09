@@ -15,7 +15,14 @@ public class Word {
     private String word;
     private List<String> rhymes;
     private List<String> syllables;
-    private int syllablesCount;
+    /**
+     * TESTING
+     * int syllablesCount
+     * - or -
+     * String syllablesCount
+     */
+    //private int syllablesCount;
+    private String syllablesCount;
     private List<String> synonyms;
     private List<String> meter;
 
@@ -76,7 +83,14 @@ public class Word {
         JsonNode rootNode = objectMapper.readTree(response.body().string());
         JsonNode syllablesNode = rootNode.path("syllables");
         JsonNode countNode = syllablesNode.path("count");
-        this.syllablesCount = countNode.asInt();
+        /**
+         * TESTING
+         * int syllablesCount
+         * - or -
+         * String syllablesCount
+         */
+        this.syllablesCount = countNode.asText();
+        //this.syllablesCount = countNode.asInt();
         JsonNode listNode = syllablesNode.path("list");
         List<String> syllables = new ArrayList<>();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
@@ -183,7 +197,16 @@ public class Word {
         return syllables;
     }
 
-    public int getSyllablesCount() {
+    /**
+     * TESTING
+     * int syllablesCount
+     * - or -
+     * String syllablesCount
+     */
+//    public int getSyllablesCount() {
+//        return syllablesCount;
+//    }
+    public String getSyllablesCount() {
         return syllablesCount;
     }
 
@@ -191,8 +214,19 @@ public class Word {
         return synonyms;
     }
 
-    public List<String> getMeter() {
-        return meter;
+//    public List<String> getMeter() {
+//        return meter;
+//    }
+
+    /**
+     * for printing to gui
+     * return String instead of List<String>
+     */
+    public String getMeter() {
+        String meterString = meter.toString().replaceAll(",","");
+        meterString = meterString.replaceAll("\\[","");
+        meterString = meterString.replaceAll("\\]","");
+        return meterString;
     }
 
     @Override

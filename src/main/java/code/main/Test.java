@@ -13,6 +13,12 @@ import java.util.List;
 
 public class Test {
 
+    /**
+     * Check diff w/ Word.class
+     * update if needed
+     * for accurate environment
+     */
+
     private String word;
     private List<String> rhymes;
     private List<String> syllables;

@@ -46,10 +46,21 @@ public class WordController {
          */
         String s = inputWord.getText().replaceAll("\\s", "");
         Word word = new Word(s);
-        //Test word = new Test(s);
+//        Test word = new Test(s);
         System.out.println(word.toString());
         inputWord.clear();
         createWord.setDisable(true);
+        // Set info labels
+        wordValue.setText(s);
+        /**
+         * DEPENDS on
+         * syllablesCount.type() = String in Words.class
+         * due to (Label) syllablesCount.setText(String string)
+         * & on getMeter() in Word.class
+         * returning String instead of List<String>
+         */
+        syllablesCount.setText(word.getSyllablesCount());
+        meterString.setText(word.getMeter());
     }
     /**
      * handleKeyReleased

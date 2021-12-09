@@ -33,7 +33,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label layoutX="429.0" text="---">
+            <Label fx:id="meterString" layoutX="429.0" text="---">
                <font>
                   <Font size="24.0" />
                </font>
