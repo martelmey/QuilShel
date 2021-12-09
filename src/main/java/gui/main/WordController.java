@@ -1,5 +1,6 @@
 package gui.main;
 
+import code.main.Test;
 import code.main.Word;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,7 +44,9 @@ public class WordController {
          * TESTS
          * 1. remove whitespace from inputWord.getText();
          */
-        Word word = new Word(inputWord.getText());
+        String s = inputWord.getText().replaceAll("\\s", "");
+        Word word = new Word(s);
+        //Test word = new Test(s);
         System.out.println(word.toString());
         inputWord.clear();
         createWord.setDisable(true);

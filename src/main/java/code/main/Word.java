@@ -23,42 +23,26 @@ public class Word {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Word(String word) throws IOException {
-        this.word = word;
-        String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
-        String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
-        this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
-        this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
-        this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-        this.meter = setMeter(urlBase_Datamuse);
+        if (isLetter(word)) {
+            if (word.length() > 1) {
+                word = word.toLowerCase();
+                if (isDictionaryWord(word)) {
+                    this.word = word;
+                    String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
+                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
+                    this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
+                    this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
+                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
+                    this.meter = setMeter(urlBase_Datamuse);
+                }
+            }
+        }
     }
 
-//    public Word(String word) throws IOException {
-//        /**
-//         * TESTS
-//         * 1. letters only [done]
-//         * 2. >=2 letters [done]
-//         * 3. is dictionary word [done]
-//         * 4. make lowercase [done]
-//         */
-//        if(isLetter(word)) {
-//            if(word.length()>1) {
-//                word = word.toLowerCase();
-//                if(isDictionaryWord(word)) {
-//                    this.word = word;
-//                    String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
-//                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
-//                    this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
-//                    this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
-//                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-//                    this.meter = setMeter(urlBase_Datamuse);
-//                }
-//            }
-//        }
-//    }
-
+    // test
     private boolean isDictionaryWord(String word) throws IOException {
         Request request = new Request.Builder()
-                .url("https://wordsapiv1.p.rapidapi.com/words/window")
+                .url("https://wordsapiv1.p.rapidapi.com/words/" + word)
                 .get()
                 .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
@@ -70,7 +54,7 @@ public class Word {
         compareString = compareString.replaceAll("\"", "");
         return compareString.equals(word);
     }
-
+    // test
     private boolean isLetter(String word) {
         char[] letters = word.toCharArray();
         for(char c : letters) {

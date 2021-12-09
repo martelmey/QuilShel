@@ -49,7 +49,7 @@ public class Test {
 
     private boolean isDictionaryWord(String word) throws IOException {
         Request request = new Request.Builder()
-                .url("https://wordsapiv1.p.rapidapi.com/words/window")
+                .url("https://wordsapiv1.p.rapidapi.com/words/" + word)
                 .get()
                 .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")

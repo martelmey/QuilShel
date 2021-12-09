@@ -27,16 +27,21 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         // Enable UI
-        //launch(args);
+        launch(args);
 
         // Main word gen test
 //        Word word = new Word("renewal");
 //        System.out.println(word.toString());
         // Test cases
-        Test test1 = new Test("mystery");
-        Test test2 = new Test("window");
-        System.out.println(test1.toString());
-        System.out.println(test2.toString());
+//        Test test1 = new Test("mystery");
+        /**
+         * get null
+         * check isDictionaryWord():
+         *  - Test run w/ cli works
+         **/
+//        Test test2 = new Test("window");
+//        System.out.println(test1.toString());
+//        System.out.println(test2.toString());
     }
 
     @Override
