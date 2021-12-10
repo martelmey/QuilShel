@@ -15,32 +15,30 @@ public class Word {
     private String word;
     private List<String> rhymes;
     private List<String> syllables;
-    /**
-     * TESTING
-     * int syllablesCount
-     * - or -
-     * String syllablesCount
-     */
-    //private int syllablesCount;
     private String syllablesCount;
+//    private int syllablesCount;
     private List<String> synonyms;
-    private List<String> meter;
+//    private List<String> meter;
+    private String meter;
 
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Word(String word) throws IOException {
-        if (isLetter(word)) {
+        if (allLetters(word)) {
             if (word.length() > 1) {
                 word = word.toLowerCase();
                 if (isDictionaryWord(word)) {
                     this.word = word;
                     String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
-                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
+//                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
                     this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
-                    this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
+
+                    this.rhymes = setRhymes("https://api.datamuse.com/words?rel_rhy=" + word);
+
                     this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-                    this.meter = setMeter(urlBase_Datamuse);
+//                    this.meter = setMeter(urlBase_Datamuse);
+                    this.meter = setMeter(word);
                 }
             }
         }
@@ -62,7 +60,7 @@ public class Word {
         return compareString.equals(word);
     }
     // test
-    private boolean isLetter(String word) {
+    private boolean allLetters(String word) {
         char[] letters = word.toCharArray();
         for(char c : letters) {
             if(!Character.isLetter(c)) {
@@ -90,7 +88,7 @@ public class Word {
          * String syllablesCount
          */
         this.syllablesCount = countNode.asText();
-        //this.syllablesCount = countNode.asInt();
+//        this.syllablesCount = countNode.asInt();
         JsonNode listNode = syllablesNode.path("list");
         List<String> syllables = new ArrayList<>();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
@@ -107,33 +105,39 @@ public class Word {
     }
 
     public List<String> setRhymes(String url) throws IOException {
-        Request request = new Request.Builder()
+        Request rhymeRequest = new Request.Builder()
                 .url(url)
-                .get()
-                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
                 .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode rhymesNode = rootNode.path("rhymes");
-        JsonNode allNode = rhymesNode.path("all");
+        Response rhymeResponse = client.newCall(rhymeRequest).execute();
+        JsonNode rhymeRootNode = objectMapper.readTree(rhymeResponse.body().string());
         List<String> rhymes = new ArrayList<>();
-        BreakIterator breakIterator = BreakIterator.getWordInstance();
-        breakIterator.setText(allNode.toString());
-        int lastIndex = breakIterator.first();
-        while(BreakIterator.DONE != lastIndex) {
-            int firstIndex = lastIndex;
-            lastIndex = breakIterator.next();
-            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(allNode.toString().charAt(firstIndex))) {
-                rhymes.add(allNode.toString().substring(firstIndex, lastIndex));
+        for(int i = 0; i<rhymeRootNode.size(); i++) {
+            // Get nodes per result
+            JsonNode result = rhymeRootNode.path(i);
+            JsonNode rhymeNode = result.path("word");
+            JsonNode scoreNode = result.path("score");
+            JsonNode syllablesNode = result.path("numSyllables");
+            String rhyme = rhymeNode.toString();
+            rhyme = rhyme.replaceAll("\"", ""); // rhyme
+            String scoreString = scoreNode.toString();
+            int score = Integer.parseInt(scoreString); // score
+            String syllablesString = syllablesNode.toString();
+            int syllables = Integer.parseInt(syllablesString); // syllables
+            int length = rhyme.length(); // length
+
+            // meter filter - future use
+//            String meter = setMeter(rhyme);
+            
+            if (score > 100 && length > 1) {
+                rhymes.add(rhyme.replaceAll("\\s", ""));
             }
         }
         return rhymes;
     }
 
-    public List<String> setMeter(String url) throws IOException {
+    public String setMeter(String word) throws IOException {
         Request request = new Request.Builder()
-                .url(url)
+                .url("https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5")
                 .build();
         Response response = client.newCall(request).execute();
         JsonNode rootNode = objectMapper.readTree(response.body().string());
@@ -142,16 +146,20 @@ public class Word {
         int proIndx = tagsNode.size()-1;
         JsonNode proNode = tagsNode.path(proIndx);
         String meterString = proNode.toString().replaceAll("[^\\d]", "");
-        List<String> meter = new ArrayList<>();
+        List<String> meterList = new ArrayList<>();
         for(int i = 0; i < meterString.length(); i++) {
             char charValue = meterString.charAt(i);
             int intValue = Character.getNumericValue(charValue);
             if(intValue==1) {
-                meter.add("/");
+                meterList.add("/");
             } else {
-                meter.add("*");
+                meterList.add("*");
             }
         }
+        String meter = meterList.toString().replaceAll(",", "");
+        meter = meter.replaceAll("\\[","");
+        meter = meter.replaceAll("\\]","");
+        meter = meter.replaceAll("\\s", "");
         return meter;
     }
 
@@ -208,19 +216,8 @@ public class Word {
         return synonyms;
     }
 
-//    public List<String> getMeter() {
-//        return meter;
-//    }
-
-    /**
-     * for printing to gui
-     * return String instead of List<String>
-     */
     public String getMeter() {
-        String meterString = meter.toString().replaceAll(",","");
-        meterString = meterString.replaceAll("\\[","");
-        meterString = meterString.replaceAll("\\]","");
-        return meterString;
+        return meter;
     }
 
     @Override

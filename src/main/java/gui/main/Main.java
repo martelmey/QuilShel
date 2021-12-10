@@ -44,15 +44,15 @@ public class Main extends Application {
         //launch(args);
 
         // Main word gen test
-//        Word word = new Word("renewal");
-//        System.out.println(word.toString());
+        Word word = new Word("anyway");
+        System.out.println(word.toString());
 
         /**
          * TESTS
          * filter results of setRhymes (Test)
          **/
         // Test cases
-        Test test1 = new Test("anyway");
+//        Test test1 = new Test("anyway");
 //        Test test2 = new Test("window");
 //        System.out.println(test1.getRhymes());
 //        System.out.println(test2.toString());
