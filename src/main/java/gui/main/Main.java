@@ -26,21 +26,35 @@ public class Main extends Application {
     private static Stage primaryStage;
 
     public static void main(String[] args) throws IOException {
+        // Cut spaces from String
+        // Test w/ List<String>
+//        List<String> words = new ArrayList<>();
+//        String word = "bad spaces omg ! ";
+//        words.add(word.replaceAll("\\s", ""));
+//        System.out.println(words);
+
+        // string.length() test
+//        String string1 = "s";
+//        String string2= "ss";
+//        System.out.println("string length: " + string1.length());
+//        System.out.println("string length: " + string2.length());
+
+
         // Enable UI
-        launch(args);
+        //launch(args);
 
         // Main word gen test
 //        Word word = new Word("renewal");
 //        System.out.println(word.toString());
-        // Test cases
-//        Test test1 = new Test("mystery");
+
         /**
-         * get null
-         * check isDictionaryWord():
-         *  - Test run w/ cli works
+         * TESTS
+         * filter results of setRhymes (Test)
          **/
+        // Test cases
+        Test test1 = new Test("anyway");
 //        Test test2 = new Test("window");
-//        System.out.println(test1.toString());
+//        System.out.println(test1.getRhymes());
 //        System.out.println(test2.toString());
     }
 

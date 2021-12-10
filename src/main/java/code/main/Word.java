@@ -107,12 +107,6 @@ public class Word {
     }
 
     public List<String> setRhymes(String url) throws IOException {
-        /**
-         * TESTS
-         * 1. top results only to avoid inaccuracies
-         * 2. dedup
-         * 3. check score of each rhyme, cut rares
-         */
         Request request = new Request.Builder()
                 .url(url)
                 .get()

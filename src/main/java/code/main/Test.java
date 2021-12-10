@@ -34,10 +34,10 @@ public class Test {
          * TESTS
          * 1. letters only [done]
          * 2. >=2 letters [done]
-         * 3. is dictionary word [done]
-         * 4. make lowercase [done]
+         * 3. make lowercase [done]
+         * 4. is dictionary word [done]
          */
-        if (isLetter(word)) {
+        if (allLetters(word)) {
             if (word.length() > 1) {
                 word = word.toLowerCase();
                 if (isDictionaryWord(word)) {
@@ -45,7 +45,11 @@ public class Test {
                     String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
                     String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
                     this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
+
+                    // testing: filter rhymes results
                     this.rhymes = setRhymes(urlBase_WordsAPI + "/rhymes");
+                    setRhymes2("https://api.datamuse.com/words?rel_rhy=" + word);
+
                     this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
                     this.meter = setMeter(urlBase_Datamuse);
                 }
@@ -68,7 +72,7 @@ public class Test {
         return compareString.equals(word);
     }
 
-    private boolean isLetter(String word) {
+    private boolean allLetters(String word) {
         char[] letters = word.toCharArray();
         for(char c : letters) {
             if(!Character.isLetter(c)) {
@@ -105,13 +109,72 @@ public class Test {
         return syllables;
     }
 
-    public List<String> setRhymes(String url) throws IOException {
+    public void setRhymes2(String url) throws IOException {
         /**
-         * TESTS
-         * 1. top results only to avoid inaccuracies
-         * 2. dedup
-         * 3. check score of each rhyme, cut rares
+         * 1. hi-score only [done]
+         * 2. cannot have spaces or symbols [done]
+         * 3. .length() > 1 [done]
+         * 4. dedup
          */
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response = client.newCall(request).execute();
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+
+        List<String> rhymes = new ArrayList<>();
+
+        for(int i = 0; i<2; i++) {
+            // Get fields
+            JsonNode result = rootNode.path(i);
+            JsonNode rhymeNode = result.path("word");
+            JsonNode scoreNode = result.path("score");
+            JsonNode syllablesNode = result.path("numSyllables");
+
+            // Printout {nodes}
+//            System.out.println(result);
+//            System.out.println(rhymeNode);
+//            System.out.println(scoreNode);
+//            System.out.println(syllablesNode);
+
+            // Tests
+            String rhyme = rhymeNode.toString();
+            rhyme = rhyme.replaceAll("\"", "");
+            String scoreString = scoreNode.toString();
+            int score = Integer.parseInt(scoreString);
+            String syllablesString = syllablesNode.toString();
+            int syllables = Integer.parseInt(syllablesString);
+            int length = rhyme.length();
+
+            // Printout {tests}
+            System.out.println(rhyme);
+            System.out.println(score);
+            System.out.println(syllables);
+            System.out.println("length of rhyme: " + length);
+
+            /**
+             * Score filter
+             * May need further adjustment
+             * as Measure.class is developed
+             */
+            if(score > 100 && length > 1) {
+                rhymes.add(rhyme.replaceAll("\\s", ""));
+            }
+
+        }
+        // Printout {return}
+        System.out.println(rhymes);
+
+//        System.out.println(rootNode.size());
+//        JsonNode resultOne = rootNode.path(0);
+//        JsonNode score = resultOne.path("score");
+
+//        System.out.println("dataMuse: " + rootNode);
+//        System.out.println("dataMuse: " + resultOne);
+//        System.out.println(score);
+    }
+
+    public List<String> setRhymes(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -122,6 +185,9 @@ public class Test {
         JsonNode rootNode = objectMapper.readTree(response.body().string());
         JsonNode rhymesNode = rootNode.path("rhymes");
         JsonNode allNode = rhymesNode.path("all");
+
+//        System.out.println("wordsAPI: " + allNode);
+
         List<String> rhymes = new ArrayList<>();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
         breakIterator.setText(allNode.toString());
@@ -182,6 +248,10 @@ public class Test {
             }
         }
         return synonyms;
+    }
+
+    public List<String> getRhymes() {
+        return rhymes;
     }
 
     @Override
