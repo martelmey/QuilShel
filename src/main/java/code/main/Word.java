@@ -119,17 +119,20 @@ public class Word {
             JsonNode syllablesNode = result.path("numSyllables");
             String rhyme = rhymeNode.toString();
             rhyme = rhyme.replaceAll("\"", ""); // rhyme
-            String scoreString = scoreNode.toString();
-            int score = Integer.parseInt(scoreString); // score
-            String syllablesString = syllablesNode.toString();
-            int syllables = Integer.parseInt(syllablesString); // syllables
-            int length = rhyme.length(); // length
-
-            // meter filter - future use
+            // skip rhyme with spaces
+            if(rhyme.contains(" ")) {
+                break;
+            } else {
+                String syllablesString = syllablesNode.toString();
+                int syllables = Integer.parseInt(syllablesString); // syllables
+                int length = rhyme.length(); // length
+                String scoreString = scoreNode.toString();
+                int score = Integer.parseInt(scoreString); // score
+                // meter filter - future use
 //            String meter = setMeter(rhyme);
-            
-            if (score > 100 && length > 1) {
-                rhymes.add(rhyme.replaceAll("\\s", ""));
+                if (length > 1) {
+                    rhymes.add(rhyme);
+                }
             }
         }
         return rhymes;
@@ -174,15 +177,9 @@ public class Word {
         JsonNode rootNode = objectMapper.readTree(response.body().string());
         JsonNode synonymsNode = rootNode.path("synonyms");
         List<String> synonyms = new ArrayList<>();
-        BreakIterator breakIterator = BreakIterator.getWordInstance();
-        breakIterator.setText(synonymsNode.toString());
-        int lastIndex = breakIterator.first();
-        while(BreakIterator.DONE != lastIndex) {
-            int firstIndex = lastIndex;
-            lastIndex = breakIterator.next();
-            if(lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(synonymsNode.toString().charAt(firstIndex))) {
-                synonyms.add(synonymsNode.toString().substring(firstIndex, lastIndex));
-            }
+        for(int i = 0; i<synonymsNode.size(); i++) {
+            String synonym = synonymsNode.path(i).toString();
+            synonyms.add(synonym.replaceAll("\"", ""));
         }
         return synonyms;
     }

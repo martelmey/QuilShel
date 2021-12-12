@@ -119,65 +119,37 @@ public class Test {
     }
 
     public List<String> setRhymes(String url) throws IOException {
-        /**
-         * 1. hi-score only [done]
-         * 2. cannot have spaces or symbols [done]
-         * 3. .length() > 1 [done]
-         * 4. dedup
-         */
         Request rhymeRequest = new Request.Builder()
                 .url(url)
                 .build();
         Response rhymeResponse = client.newCall(rhymeRequest).execute();
         JsonNode rhymeRootNode = objectMapper.readTree(rhymeResponse.body().string());
-
         List<String> rhymes = new ArrayList<>();
-
-        for(int i = 0; i<2; i++) {
+        for(int i = 0; i<rhymeRootNode.size(); i++) {
             // Get nodes per result
             JsonNode result = rhymeRootNode.path(i);
             JsonNode rhymeNode = result.path("word");
             JsonNode scoreNode = result.path("score");
             JsonNode syllablesNode = result.path("numSyllables");
-
-            // Printout {nodes}
-//            System.out.println(result);
-//            System.out.println(rhymeNode);
-//            System.out.println(scoreNode);
-//            System.out.println(syllablesNode);
-
-            // Get fields
             String rhyme = rhymeNode.toString();
             rhyme = rhyme.replaceAll("\"", ""); // rhyme
-            String scoreString = scoreNode.toString();
-            int score = Integer.parseInt(scoreString); // score
-            String syllablesString = syllablesNode.toString();
-            int syllables = Integer.parseInt(syllablesString); // syllables
-            int length = rhyme.length(); // length
-            // meter filter - future use
-            String meter = setMeter(rhyme);
-
-            // Printout {fields}
-//            System.out.println(rhyme);
-//            System.out.println(score);
-//            System.out.println(syllables);
-//            System.out.println("length of rhyme: " + length);
-//            System.out.println("meter for " + rhyme + ": " + meter);
-
-            /**
-             * Score filter
-             * May need further adjustment
-             * as Measure.class is developed
-             *
-             * Ensure alpha-chars only in rhyme
-             * before adding to rhymes
-             */
-            if(score > 100 && length > 1) {
-                rhymes.add(rhyme.replaceAll("\\s", ""));
+            // skip rhyme with spaces
+            if(rhyme.contains(" ")) {
+                break;
+            } else {
+                String syllablesString = syllablesNode.toString();
+                int syllables = Integer.parseInt(syllablesString); // syllables
+                int length = rhyme.length(); // length
+                String scoreString = scoreNode.toString();
+                int score = Integer.parseInt(scoreString); // score
+                System.out.println("rhyme: "+rhyme+"; score: "+score);
+                // meter filter - future use
+//            String meter = setMeter(rhyme);
+                if (length > 1) {
+                    rhymes.add(rhyme);
+                }
             }
         }
-        // Printout {return}
-//        System.out.println(rhymes);
         return rhymes;
     }
 

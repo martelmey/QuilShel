@@ -1,10 +1,10 @@
 package gui.main;
 
-import code.main.Test;
 import code.main.Word;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -29,6 +29,12 @@ public class WordController {
     @FXML
     private Button createWord;
 
+    // Lists
+    @FXML
+    private ListView<String> rhymesList;
+    @FXML
+    private ListView<String> synonymsList;
+
     @FXML
     public void initialize() {
         createWord.setDisable(true);
@@ -45,6 +51,9 @@ public class WordController {
          * 1. remove whitespace from inputWord.getText();
          */
         String s = inputWord.getText().replaceAll("\\s", "");
+
+        System.out.println(s);
+
         Word word = new Word(s);
 //        Test word = new Test(s);
         System.out.println(word.toString());
@@ -56,11 +65,12 @@ public class WordController {
          * DEPENDS on
          * syllablesCount.type() = String in Words.class
          * due to (Label) syllablesCount.setText(String string)
-         * & on getMeter() in Word.class
-         * returning String instead of List<String>
          */
         syllablesCount.setText(word.getSyllablesCount());
         meterString.setText(word.getMeter());
+        // Set lists
+        rhymesList.getItems().setAll(word.getRhymes());
+        synonymsList.getItems().setAll(word.getSynonyms());
     }
     /**
      * handleKeyReleased

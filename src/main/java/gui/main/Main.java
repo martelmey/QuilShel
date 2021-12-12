@@ -39,13 +39,12 @@ public class Main extends Application {
 //        System.out.println("string length: " + string1.length());
 //        System.out.println("string length: " + string2.length());
 
-
         // Enable UI
-        //launch(args);
+        launch(args);
 
         // Main word gen test
-        Word word = new Word("anyway");
-        System.out.println(word.toString());
+//        Word word = new Word("anyway");
+//        System.out.println(word.toString());
 
         /**
          * TESTS
@@ -61,7 +60,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
-        //Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("/gui.word.fxml"));
         primaryStage.setTitle("QuilShel");
         primaryStage.setScene(new Scene(root, 600, 400));

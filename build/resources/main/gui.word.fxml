@@ -44,12 +44,12 @@
          <children>
             <VBox prefHeight="278.0" prefWidth="302.0">
                <children>
-                  <Label text="Syllables">
+                  <Label text="Synonyms">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ListView prefHeight="294.0" prefWidth="240.0" />
+                  <ListView fx:id="synonymsList" prefHeight="294.0" prefWidth="240.0" />
                </children>
             </VBox>
             <VBox prefHeight="278.0" prefWidth="295.0">
@@ -59,7 +59,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ListView prefHeight="294.0" prefWidth="295.0" />
+                  <ListView fx:id="rhymesList" prefHeight="294.0" prefWidth="295.0" />
                </children>
             </VBox>
          </children>
