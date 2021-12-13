@@ -2,6 +2,7 @@ package code.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gui.main.Main;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -13,11 +14,19 @@ import java.util.List;
 
 public class Word {
     private String word;
-    private List<String> rhymes;
+
+    private List<Rhyme> rhymes;
+
     private List<String> syllables;
-    private String syllablesCount;
-//    private int syllablesCount;
+
+    // Set by constructor, not Main.setSyllablesCount
+    // for GUI Label restrictions
+    private String syllablesCountString;
+    private int syllablesCountInt;
+
     private List<String> synonyms;
+    private List<Synonym> synonyms2;
+
 //    private List<String> meter;
     private String meter;
 
@@ -32,13 +41,15 @@ public class Word {
                     this.word = word;
                     String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
 //                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
+
                     this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
 
                     this.rhymes = setRhymes("https://api.datamuse.com/words?rel_rhy=" + word);
 
                     this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-//                    this.meter = setMeter(urlBase_Datamuse);
-                    this.meter = setMeter(word);
+                    this.synonyms2 = setSynonyms2("https://api.datamuse.com/words?rel_syn=" + word);
+
+                    this.meter = Main.setMeter(word);
                 }
             }
         }
@@ -81,14 +92,16 @@ public class Word {
         JsonNode rootNode = objectMapper.readTree(response.body().string());
         JsonNode syllablesNode = rootNode.path("syllables");
         JsonNode countNode = syllablesNode.path("count");
+
         /**
          * TESTING
          * int syllablesCount
          * - or -
          * String syllablesCount
          */
-        this.syllablesCount = countNode.asText();
-//        this.syllablesCount = countNode.asInt();
+        this.syllablesCountString = countNode.asText();
+        this.syllablesCountInt = countNode.asInt();
+
         JsonNode listNode = syllablesNode.path("list");
         List<String> syllables = new ArrayList<>();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
@@ -104,35 +117,24 @@ public class Word {
         return syllables;
     }
 
-    public List<String> setRhymes(String url) throws IOException {
+    public List<Rhyme> setRhymes(String url) throws IOException {
         Request rhymeRequest = new Request.Builder()
                 .url(url)
                 .build();
-        Response rhymeResponse = client.newCall(rhymeRequest).execute();
-        JsonNode rhymeRootNode = objectMapper.readTree(rhymeResponse.body().string());
-        List<String> rhymes = new ArrayList<>();
-        for(int i = 0; i<rhymeRootNode.size(); i++) {
-            // Get nodes per result
-            JsonNode result = rhymeRootNode.path(i);
+        Response response = client.newCall(rhymeRequest).execute();
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        List<Rhyme> rhymes = new ArrayList<>();
+        for(int i = 0; i<rootNode.size(); i++) {
+            JsonNode result = rootNode.path(i);
             JsonNode rhymeNode = result.path("word");
-            JsonNode scoreNode = result.path("score");
-            JsonNode syllablesNode = result.path("numSyllables");
-            String rhyme = rhymeNode.toString();
-            rhyme = rhyme.replaceAll("\"", ""); // rhyme
-            // skip rhyme with spaces
-            if(rhyme.contains(" ")) {
+            String rhymeString = rhymeNode.toString().replaceAll("\"", "");
+            if(rhymeString.contains(" ")) {
+                break;
+            } else if (rhymeString.length()<2) {
                 break;
             } else {
-                String syllablesString = syllablesNode.toString();
-                int syllables = Integer.parseInt(syllablesString); // syllables
-                int length = rhyme.length(); // length
-                String scoreString = scoreNode.toString();
-                int score = Integer.parseInt(scoreString); // score
-                // meter filter - future use
-//            String meter = setMeter(rhyme);
-                if (length > 1) {
-                    rhymes.add(rhyme);
-                }
+                Rhyme rhyme = new Rhyme(result, rhymeString);
+                rhymes.add(rhyme);
             }
         }
         return rhymes;
@@ -184,11 +186,26 @@ public class Word {
         return synonyms;
     }
 
+    public List<Synonym> setSynonyms2(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response = client.newCall(request).execute();
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        List<Synonym> synonyms = new ArrayList<>();
+        for(int i = 0; i<rootNode.size(); i++) {
+            JsonNode result = rootNode.path(i);
+            Synonym synonym = new Synonym(result);
+            synonyms.add(synonym);
+        }
+        return synonyms;
+    }
+
     public String getWord() {
         return word;
     }
 
-    public List<String> getRhymes() {
+    public List<Rhyme> getRhymes() {
         return rhymes;
     }
 
@@ -202,11 +219,11 @@ public class Word {
      * - or -
      * String syllablesCount
      */
-//    public int getSyllablesCount() {
-//        return syllablesCount;
-//    }
-    public String getSyllablesCount() {
-        return syllablesCount;
+    public int getSyllablesCountInt() {
+        return syllablesCountInt;
+    }
+    public String getSyllablesCountString() {
+        return syllablesCountString;
     }
 
     public List<String> getSynonyms() {
@@ -223,7 +240,7 @@ public class Word {
                 "\n\tword = " + word + "\n" +
                 "\trhymes = " + rhymes + "\n" +
                 "\tsyllables = " + syllables + "\n" +
-                "\tsyllablesCount = " + syllablesCount + "\n" +
+                "\tsyllablesCount = " + syllablesCountInt + "\n" +
                 "\tsynonyms = " + synonyms + "\n" +
                 "\tmeter = " + meter +
                 "\n}";

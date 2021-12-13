@@ -2,10 +2,7 @@ package gui.main;
 
 import code.main.Word;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,6 +32,20 @@ public class WordController {
     @FXML
     private ListView<String> synonymsList;
 
+    // Tables
+    @FXML
+    private TableView synTable;
+    @FXML
+    private TableColumn synWord;
+    @FXML
+    private TableColumn synMeter;
+    @FXML
+    private TableView rhyTable;
+    @FXML
+    private TableColumn rhyWord;
+    @FXML
+    private TableColumn rhyMeter;
+
     @FXML
     public void initialize() {
         createWord.setDisable(true);
@@ -51,9 +62,6 @@ public class WordController {
          * 1. remove whitespace from inputWord.getText();
          */
         String s = inputWord.getText().replaceAll("\\s", "");
-
-        System.out.println(s);
-
         Word word = new Word(s);
 //        Test word = new Test(s);
         System.out.println(word.toString());
@@ -66,11 +74,12 @@ public class WordController {
          * syllablesCount.type() = String in Words.class
          * due to (Label) syllablesCount.setText(String string)
          */
-        syllablesCount.setText(word.getSyllablesCount());
+        syllablesCount.setText(word.getSyllablesCountString());
         meterString.setText(word.getMeter());
         // Set lists
-        rhymesList.getItems().setAll(word.getRhymes());
-        synonymsList.getItems().setAll(word.getSynonyms());
+//        rhymesList.getItems().setAll(word.getRhymes());
+//        synonymsList.getItems().setAll(word.getSynonyms());
+        // Set tables
     }
     /**
      * handleKeyReleased
