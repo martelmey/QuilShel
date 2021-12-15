@@ -38,6 +38,8 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         // Enable UI
         launch(args);
+
+//        setPOS("observe");
     }
 
     @Override
@@ -46,8 +48,32 @@ public class Main extends Application {
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("/gui.word2.fxml"));
         primaryStage.setTitle("QuilShel");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 800, 400));
         primaryStage.show();
+    }
+
+    // get part of speech for word
+    public static String setPOS(String word) throws IOException {
+        Request request = new Request.Builder()
+                .url(urlBase_Datamuse + "ml=" + word + "&qe=ml&md=p&max=1")
+                .build();
+        Response response = client.newCall(request).execute();
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        JsonNode resultNode = rootNode.path(0);
+        JsonNode tagsNode = resultNode.path("tags");
+        JsonNode posNode = tagsNode.path(tagsNode.size()-1);
+
+//        System.out.println(tagsNode);
+//        System.out.println(tagsNode.size()-1);
+//        System.out.println(posNode);
+
+        String pos = posNode.toString().replaceAll("\"", "");
+        // handle unknown value returned
+        if(pos.equals("u")) {
+            pos = "n/a";
+        }
+//        System.out.println(pos);
+        return pos;
     }
 
     public static String setMeter(String word) throws IOException {
@@ -80,7 +106,7 @@ public class Main extends Application {
 
     // count syllables for whole sentence, return int
     public static int setSyllablesCount(String word) throws IOException {
-        System.out.println("\nFrom Main.setSyllablesCount: ");
+//        System.out.println("\nFrom Main.setSyllablesCount: ");
 //        System.out.println("\tURL: "+urlBase_WordsAPI + word + end_WordsAPI_Syllables);
 
         int count = 0;
@@ -101,9 +127,9 @@ public class Main extends Application {
                 JsonNode syllablesNode = rootNode.path("syllables");
                 JsonNode countNode = syllablesNode.path("count");
 
-                System.out.println("\tword: "+words[i]);
-                System.out.println("\turl: "+urlBase_WordsAPI + words[i] + end_WordsAPI_Syllables);
-                System.out.println("\tsyllables for " + words[i] + ": " + countNode.asInt());
+//                System.out.println("\tword: "+words[i]);
+//                System.out.println("\turl: "+urlBase_WordsAPI + words[i] + end_WordsAPI_Syllables);
+//                System.out.println("\tsyllables for " + words[i] + ": " + countNode.asInt());
 
                 if(countNode.asInt()==0) {
                     count+=1;
@@ -127,7 +153,7 @@ public class Main extends Application {
             count+=countNode.asInt();
         }
 
-        System.out.println("\tcount for " + word + ": " + count);
+//        System.out.println("\tcount for " + word + ": " + count);
         return count;
     }
 

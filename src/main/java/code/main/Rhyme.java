@@ -10,15 +10,14 @@ public class Rhyme {
     private int syllables;
     private int score;
     private String meter;
-
-    // future: declare noun, verb, etc ... for sorting & filtering
-    private String part;
+    private String pos;
 
     public Rhyme(JsonNode result, String rhymeString) throws IOException {
 //        System.out.println("From Rhyme.class:");
 
         this.rhyme = rhymeString;
 
+        this.syllables = Main.setSyllablesCount(this.rhyme);
 //        System.out.println("\trhyme: "+this.rhyme);
 
         JsonNode scoreNode = result.path("score");
@@ -30,9 +29,26 @@ public class Rhyme {
 //        System.out.println("\tsyllables: "+this.syllables);
 
         this.meter = Main.setMeter(this.rhyme);
+        this.pos = Main.setPOS(this.rhyme);
 
 //        System.out.println("\tmeter: "+this.meter);
 //        System.out.println(toString());
+    }
+
+    public String getRhyme() {
+        return rhyme;
+    }
+
+    public int getSyllables() {
+        return syllables;
+    }
+
+    public String getMeter() {
+        return meter;
+    }
+
+    public String getPos() {
+        return pos;
     }
 
     @Override

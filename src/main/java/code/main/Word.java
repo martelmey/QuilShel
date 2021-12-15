@@ -24,11 +24,13 @@ public class Word {
     private String syllablesCountString;
     private int syllablesCountInt;
 
-    private List<String> synonyms;
-    private List<Synonym> synonyms2;
+//    private List<String> synonyms;
+    private List<Synonym> synonyms;
 
 //    private List<String> meter;
     private String meter;
+
+    private String pos;
 
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -46,10 +48,11 @@ public class Word {
 
                     this.rhymes = setRhymes("https://api.datamuse.com/words?rel_rhy=" + word);
 
-                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-                    this.synonyms2 = setSynonyms2("https://api.datamuse.com/words?rel_syn=" + word);
+//                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
+                    this.synonyms = setSynonyms("https://api.datamuse.com/words?rel_syn=" + word);
 
                     this.meter = Main.setMeter(word);
+                    this.pos = Main.setPOS(word);
                 }
             }
         }
@@ -168,25 +171,26 @@ public class Word {
         return meter;
     }
 
-    public List<String> setSynonyms(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
-                .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode synonymsNode = rootNode.path("synonyms");
-        List<String> synonyms = new ArrayList<>();
-        for(int i = 0; i<synonymsNode.size(); i++) {
-            String synonym = synonymsNode.path(i).toString();
-            synonyms.add(synonym.replaceAll("\"", ""));
-        }
-        return synonyms;
-    }
+    // old WordsAPI method
+//    public List<String> setSynonyms(String url) throws IOException {
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .get()
+//                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
+//                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
+//                .build();
+//        Response response = client.newCall(request).execute();
+//        JsonNode rootNode = objectMapper.readTree(response.body().string());
+//        JsonNode synonymsNode = rootNode.path("synonyms");
+//        List<String> synonyms = new ArrayList<>();
+//        for(int i = 0; i<synonymsNode.size(); i++) {
+//            String synonym = synonymsNode.path(i).toString();
+//            synonyms.add(synonym.replaceAll("\"", ""));
+//        }
+//        return synonyms;
+//    }
 
-    public List<Synonym> setSynonyms2(String url) throws IOException {
+    public List<Synonym> setSynonyms(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -226,12 +230,19 @@ public class Word {
         return syllablesCountString;
     }
 
-    public List<String> getSynonyms() {
+    public List<Synonym> getSynonyms() {
         return synonyms;
     }
+    //    public List<String> getSynonyms() {
+//        return synonyms;
+//    }
 
     public String getMeter() {
         return meter;
+    }
+
+    public String getPos() {
+        return pos;
     }
 
     @Override
@@ -242,7 +253,8 @@ public class Word {
                 "\tsyllables = " + syllables + "\n" +
                 "\tsyllablesCount = " + syllablesCountInt + "\n" +
                 "\tsynonyms = " + synonyms + "\n" +
-                "\tmeter = " + meter +
+                "\tmeter = " + meter + "\n" +
+                "\tpart of speech = " + pos +
                 "\n}";
     }
 }
