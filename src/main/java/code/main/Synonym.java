@@ -2,14 +2,17 @@ package code.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import gui.main.Main;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.io.IOException;
 
 public class Synonym {
-    private String synonym;
-    private int syllables;
-    private String meter;
-    private String type;
+    private final String synonym;
+    private final int syllables;
+    private final String meter;
+    private final String type;
+
+    private final SimpleStringProperty synonymProperty;
 
     public Synonym(JsonNode result) throws IOException {
 //        System.out.println("From Synonym.class: ");
@@ -19,9 +22,15 @@ public class Synonym {
         this.meter = Main.setMeter(this.synonym);
         this.type = Main.setType(this.synonym);
 
-//        System.out.println("\tthis.synonym: "+this.synonym);
-//        System.out.println("\tthis.syllables: "+this.syllables);
-//        System.out.println("\tmeter: "+this.meter+"\n");
+        this.synonymProperty = new SimpleStringProperty(this.synonym);
+    }
+
+    public String getSynonymProperty() {
+        return synonymProperty.get();
+    }
+
+    public SimpleStringProperty synonymPropertyProperty() {
+        return synonymProperty;
     }
 
     public String getSynonym() {
@@ -42,6 +51,10 @@ public class Synonym {
 
     @Override
     public String toString() {
-        return this.synonym;
+//        return this.synonym;
+        return this.synonym + ", " +
+                this.syllables + ", " +
+                this.meter + ", " +
+                this.type;
     }
 }

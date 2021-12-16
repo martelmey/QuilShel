@@ -105,7 +105,8 @@ public class Word {
             } else if (rhymeString.length()<2) {
                 break;
             } else {
-                Rhyme rhyme = new Rhyme(result, rhymeString);
+                Rhyme rhyme = new Rhyme(result);
+//                Rhyme rhyme = new Rhyme(result, rhymeString);
                 rhymes.add(rhyme);
             }
         }

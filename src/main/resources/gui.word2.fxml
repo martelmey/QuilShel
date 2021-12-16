@@ -61,10 +61,10 @@
                   </Label>
                   <TableView fx:id="synTable" prefHeight="300.0" prefWidth="400.0">
                     <columns>
-                     <TableColumn fx:id="synWord" minWidth="100.0" prefWidth="100.0" text="Synonym" />
-                     <TableColumn fx:id="synSyl" minWidth="100.0" prefWidth="100.0" text="Syllables" />
-                     <TableColumn fx:id="synMeter" minWidth="100.0" prefWidth="100.0" text="Meter" />
-                     <TableColumn fx:id="synType" minWidth="100.0" prefWidth="100.0" text="Type" />
+                     <TableColumn fx:id="synWordColumn" minWidth="100.0" prefWidth="100.0" text="Synonym" />
+                     <TableColumn fx:id="synSylColumn" minWidth="100.0" prefWidth="100.0" text="Syllables" />
+                     <TableColumn fx:id="synMeterColumn" minWidth="100.0" prefWidth="100.0" text="Meter" />
+                     <TableColumn fx:id="synTypeColumn" minWidth="100.0" prefWidth="100.0" text="Type" />
                     </columns>
                   </TableView>
                </children>
@@ -78,10 +78,10 @@
                   </Label>
                   <TableView fx:id="rhyTable" prefHeight="300.0" prefWidth="400.0">
                     <columns>
-                     <TableColumn fx:id="rhyWord" minWidth="100.0" prefWidth="100.0" text="Rhyme" />
-                     <TableColumn fx:id="rhySyl" minWidth="100.0" prefWidth="100.0" text="Syllables" />
-                     <TableColumn fx:id="rhyMeter" minWidth="100.0" prefWidth="100.0" text="Meter" />
-                     <TableColumn fx:id="rhyType" minWidth="100.0" prefWidth="100.0" text="Type" />
+                     <TableColumn fx:id="rhyWordColumn" minWidth="100.0" prefWidth="100.0" text="Rhyme" />
+                     <TableColumn fx:id="rhySylColumn" minWidth="100.0" prefWidth="100.0" text="Syllables" />
+                     <TableColumn fx:id="rhyMeterColumn" minWidth="100.0" prefWidth="100.0" text="Meter" />
+                     <TableColumn fx:id="rhyTypeColumn" minWidth="100.0" prefWidth="100.0" text="Type" />
                     </columns>
                   </TableView>
                </children>

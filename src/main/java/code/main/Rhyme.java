@@ -2,37 +2,37 @@ package code.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import gui.main.Main;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.io.IOException;
 
 public class Rhyme {
-    private String rhyme;
-    private int syllables;
-    private int score;
-    private String meter;
-    private String pos;
+    private final String rhyme;
+    private final int syllables;
+    private final String meter;
+    private final String type;
 
-    public Rhyme(JsonNode result, String rhymeString) throws IOException {
+    private final SimpleStringProperty rhymeProperty;
+
+//    public Rhyme(JsonNode result, String rhymeString) throws IOException {
+    public Rhyme(JsonNode result) throws IOException {
 //        System.out.println("From Rhyme.class:");
 
-        this.rhyme = rhymeString;
-
+        this.rhyme = result.path("word").toString().replaceAll("\"", "");
+//        this.rhyme = rhymeString;
         this.syllables = Main.setSyllablesCount(this.rhyme);
-//        System.out.println("\trhyme: "+this.rhyme);
-
-        JsonNode scoreNode = result.path("score");
-        this.score = Integer.parseInt(scoreNode.toString());
-//        System.out.println("\tscore: "+this.score);
-
-//        this.syllables = Main.setSyllablesCount(this.rhyme);
-
-//        System.out.println("\tsyllables: "+this.syllables);
-
         this.meter = Main.setMeter(this.rhyme);
-        this.pos = Main.setType(this.rhyme);
+        this.type = Main.setType(this.rhyme);
 
-//        System.out.println("\tmeter: "+this.meter);
-//        System.out.println(toString());
+        this.rhymeProperty = new SimpleStringProperty(this.rhyme);
+    }
+
+    public String getRhymeProperty() {
+        return rhymeProperty.get();
+    }
+
+    public SimpleStringProperty rhymePropertyProperty() {
+        return rhymeProperty;
     }
 
     public String getRhyme() {
@@ -47,12 +47,16 @@ public class Rhyme {
         return meter;
     }
 
-    public String getPos() {
-        return pos;
+    public String getType() {
+        return type;
     }
 
     @Override
     public String toString() {
-        return rhyme;
+//        return this.rhyme;
+        return this.rhyme + ", " +
+                this.syllables + ", " +
+                this.meter +  ", " +
+                this.type;
     }
 }
