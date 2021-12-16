@@ -9,7 +9,7 @@ public class Synonym {
     private String synonym;
     private int syllables;
     private String meter;
-    private String pos;
+    private String type;
 
     public Synonym(JsonNode result) throws IOException {
 //        System.out.println("From Synonym.class: ");
@@ -17,7 +17,7 @@ public class Synonym {
         this.synonym = result.path("word").toString().replaceAll("\"", "");
         this.syllables = Main.setSyllablesCount(this.synonym);
         this.meter = Main.setMeter(this.synonym);
-        this.pos = Main.setPOS(this.synonym);
+        this.type = Main.setType(this.synonym);
 
 //        System.out.println("\tthis.synonym: "+this.synonym);
 //        System.out.println("\tthis.syllables: "+this.syllables);
@@ -36,8 +36,8 @@ public class Synonym {
         return meter;
     }
 
-    public String getPos() {
-        return pos;
+    public String getType() {
+        return type;
     }
 
     @Override

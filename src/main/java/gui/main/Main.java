@@ -1,12 +1,7 @@
 package gui.main;
 
-import code.main.Test;
-import code.main.Word;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.ValueNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,23 +12,25 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.text.BreakIterator;
 import java.util.*;
 
 public class Main extends Application {
     // GUI
     private static Stage primaryStage;
     // API
-    private static OkHttpClient client = new OkHttpClient();
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    public static final OkHttpClient CLIENT = new OkHttpClient();
+    public static final ObjectMapper MAPPER = new ObjectMapper();
     // Endpoints
-    public static String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/";
-    public static String urlBase_Datamuse = "https://api.datamuse.com/words?";
-    public static String end_WordsAPI_Syllables = "/syllables";
+    public static final String URL_BASE_WORDS_API = "https://wordsapiv1.p.rapidapi.com/words/";
+    public static final String URL_BASE_DATAMUSE = "https://api.datamuse.com/words?";
+    public static final String END_WORDS_API_SYLLABLES = "/syllables";
+    public static final String END_DATAMUSE_RHYMES = "rel_rhy=";
+    public static final String END_DATAMUSE_SYNONYMS = "rel_syn=";
     // Headers
-    public static String rapidHostHeader = "wordsapiv1.p.rapidapi.com";
-    public static String rapidKeyHeader = "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695";
+    public static final String HEAD_RAPID_HOST = "x-rapidapi-host";
+    public static final String HEAD_WORDS_API = "wordsapiv1.p.rapidapi.com";
+    public static final String HEAD_RAPID_KEY = "x-rapidapi-key";
+    public static final String HEAD_WORDS_API_KEY = "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695";
 
     public static void main(String[] args) throws IOException {
         // Enable UI
@@ -53,35 +50,35 @@ public class Main extends Application {
     }
 
     // get part of speech for word
-    public static String setPOS(String word) throws IOException {
+    public static String setType(String word) throws IOException {
         Request request = new Request.Builder()
-                .url(urlBase_Datamuse + "ml=" + word + "&qe=ml&md=p&max=1")
+                .url(URL_BASE_DATAMUSE + "ml=" + word + "&qe=ml&md=p&max=1")
                 .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        Response response = CLIENT.newCall(request).execute();
+        JsonNode rootNode = MAPPER.readTree(response.body().string());
         JsonNode resultNode = rootNode.path(0);
         JsonNode tagsNode = resultNode.path("tags");
-        JsonNode posNode = tagsNode.path(tagsNode.size()-1);
+        JsonNode typeNode = tagsNode.path(tagsNode.size()-1);
 
 //        System.out.println(tagsNode);
 //        System.out.println(tagsNode.size()-1);
-//        System.out.println(posNode);
+//        System.out.println(typeNode);
 
-        String pos = posNode.toString().replaceAll("\"", "");
+        String type = typeNode.toString().replaceAll("\"", "");
         // handle unknown value returned
-        if(pos.equals("u")) {
-            pos = "n/a";
+        if(type.equals("u")) {
+            type = "n/a";
         }
-//        System.out.println(pos);
-        return pos;
+//        System.out.println(type);
+        return type;
     }
 
     public static String setMeter(String word) throws IOException {
         Request request = new Request.Builder()
-                .url(urlBase_Datamuse + "ml=" + word + "&qe=ml&md=r&max=5")
+                .url(URL_BASE_DATAMUSE + "ml=" + word + "&qe=ml&md=r&max=5")
                 .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        Response response = CLIENT.newCall(request).execute();
+        JsonNode rootNode = MAPPER.readTree(response.body().string());
         JsonNode resultOne = rootNode.path(0);
         JsonNode tagsNode = resultOne.path("tags");
         int proIndx = tagsNode.size()-1;
@@ -117,13 +114,13 @@ public class Main extends Application {
             for(int i = 0; i<words.length; i++) {
 
                 Request request = new Request.Builder()
-                        .url(urlBase_WordsAPI + words[i] + end_WordsAPI_Syllables)
+                        .url(URL_BASE_WORDS_API + words[i] + END_WORDS_API_SYLLABLES)
                         .get()
-                        .addHeader("x-rapidapi-host", rapidHostHeader)
-                        .addHeader("x-rapidapi-key", rapidKeyHeader)
+                        .addHeader("x-rapidapi-host", HEAD_WORDS_API)
+                        .addHeader("x-rapidapi-key", HEAD_WORDS_API_KEY)
                         .build();
-                Response response = client.newCall(request).execute();
-                JsonNode rootNode = objectMapper.readTree(response.body().string());
+                Response response = CLIENT.newCall(request).execute();
+                JsonNode rootNode = MAPPER.readTree(response.body().string());
                 JsonNode syllablesNode = rootNode.path("syllables");
                 JsonNode countNode = syllablesNode.path("count");
 
@@ -140,13 +137,13 @@ public class Main extends Application {
 
         } else {
             Request request = new Request.Builder()
-                    .url(urlBase_WordsAPI + word + end_WordsAPI_Syllables)
+                    .url(URL_BASE_WORDS_API + word + END_WORDS_API_SYLLABLES)
                     .get()
-                    .addHeader("x-rapidapi-host", rapidHostHeader)
-                    .addHeader("x-rapidapi-key", rapidKeyHeader)
+                    .addHeader("x-rapidapi-host", HEAD_WORDS_API)
+                    .addHeader("x-rapidapi-key", HEAD_WORDS_API_KEY)
                     .build();
-            Response response = client.newCall(request).execute();
-            JsonNode rootNode = objectMapper.readTree(response.body().string());
+            Response response = CLIENT.newCall(request).execute();
+            JsonNode rootNode = MAPPER.readTree(response.body().string());
             JsonNode syllablesNode = rootNode.path("syllables");
             JsonNode countNode = syllablesNode.path("count");
 
@@ -155,6 +152,32 @@ public class Main extends Application {
 
 //        System.out.println("\tcount for " + word + ": " + count);
         return count;
+    }
+
+    // test
+    public static boolean isDictionaryWord(String word) throws IOException {
+        Request request = new Request.Builder()
+                .url("https://wordsapiv1.p.rapidapi.com/words/" + word)
+                .get()
+                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
+                .build();
+        Response response = CLIENT.newCall(request).execute();
+        JsonNode rootNode = MAPPER.readTree(response.body().string());
+        JsonNode wordNode = rootNode.path("word");
+        String compareString = wordNode.toString();
+        compareString = compareString.replaceAll("\"", "");
+        return compareString.equals(word);
+    }
+    // test
+    public static boolean allLetters(String word) {
+        char[] letters = word.toCharArray();
+        for(char c : letters) {
+            if(!Character.isLetter(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static Stage getPrimaryStage() {

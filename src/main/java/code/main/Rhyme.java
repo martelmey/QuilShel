@@ -29,7 +29,7 @@ public class Rhyme {
 //        System.out.println("\tsyllables: "+this.syllables);
 
         this.meter = Main.setMeter(this.rhyme);
-        this.pos = Main.setPOS(this.rhyme);
+        this.pos = Main.setType(this.rhyme);
 
 //        System.out.println("\tmeter: "+this.meter);
 //        System.out.println(toString());

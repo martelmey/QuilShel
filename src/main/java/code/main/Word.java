@@ -1,9 +1,7 @@
 package code.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gui.main.Main;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -30,69 +28,40 @@ public class Word {
 //    private List<String> meter;
     private String meter;
 
-    private String pos;
-
-    private final OkHttpClient client = new OkHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private String type;
 
     public Word(String word) throws IOException {
-        if (allLetters(word)) {
+        if (Main.allLetters(word)) {
             if (word.length() > 1) {
                 word = word.toLowerCase();
-                if (isDictionaryWord(word)) {
+                if (Main.isDictionaryWord(word)) {
                     this.word = word;
-                    String urlBase_WordsAPI = "https://wordsapiv1.p.rapidapi.com/words/" + word;
-//                    String urlBase_Datamuse = "https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5";
+                    this.syllables = setSyllables(Main.URL_BASE_WORDS_API + word + Main.END_WORDS_API_SYLLABLES);
+//                    this.syllablesCountInt = Main.setSyllablesCount(word);
 
-                    this.syllables = setSyllables(urlBase_WordsAPI + "/syllables");
-
-                    this.rhymes = setRhymes("https://api.datamuse.com/words?rel_rhy=" + word);
+                    this.rhymes = setRhymes(Main.URL_BASE_DATAMUSE + Main.END_DATAMUSE_RHYMES + word);
 
 //                    this.synonyms = setSynonyms(urlBase_WordsAPI + "/synonyms");
-                    this.synonyms = setSynonyms("https://api.datamuse.com/words?rel_syn=" + word);
+                    this.synonyms = setSynonyms(Main.URL_BASE_DATAMUSE + Main.END_DATAMUSE_SYNONYMS + word);
 
                     this.meter = Main.setMeter(word);
-                    this.pos = Main.setPOS(word);
+                    this.type = Main.setType(word);
                 }
             }
         }
     }
 
-    // test
-    private boolean isDictionaryWord(String word) throws IOException {
-        Request request = new Request.Builder()
-                .url("https://wordsapiv1.p.rapidapi.com/words/" + word)
-                .get()
-                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
-                .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode wordNode = rootNode.path("word");
-        String compareString = wordNode.toString();
-        compareString = compareString.replaceAll("\"", "");
-        return compareString.equals(word);
-    }
-    // test
-    private boolean allLetters(String word) {
-        char[] letters = word.toCharArray();
-        for(char c : letters) {
-            if(!Character.isLetter(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    // required for Label syllablesCount String req'
+    // cannot use Main.getSyllables(): it returns int
     private List<String> setSyllables(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
-                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
-                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
+                .addHeader(Main.HEAD_RAPID_HOST, Main.HEAD_WORDS_API)
+                .addHeader(Main.HEAD_RAPID_KEY, Main.HEAD_WORDS_API_KEY)
                 .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        Response response = Main.CLIENT.newCall(request).execute();
+        JsonNode rootNode = Main.MAPPER.readTree(response.body().string());
         JsonNode syllablesNode = rootNode.path("syllables");
         JsonNode countNode = syllablesNode.path("count");
 
@@ -124,8 +93,8 @@ public class Word {
         Request rhymeRequest = new Request.Builder()
                 .url(url)
                 .build();
-        Response response = client.newCall(rhymeRequest).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        Response response = Main.CLIENT.newCall(rhymeRequest).execute();
+        JsonNode rootNode = Main.MAPPER.readTree(response.body().string());
         List<Rhyme> rhymes = new ArrayList<>();
         for(int i = 0; i<rootNode.size(); i++) {
             JsonNode result = rootNode.path(i);
@@ -143,33 +112,35 @@ public class Word {
         return rhymes;
     }
 
-    public String setMeter(String word) throws IOException {
-        Request request = new Request.Builder()
-                .url("https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5")
-                .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
-        JsonNode resultOne = rootNode.path(0);
-        JsonNode tagsNode = resultOne.path("tags");
-        int proIndx = tagsNode.size()-1;
-        JsonNode proNode = tagsNode.path(proIndx);
-        String meterString = proNode.toString().replaceAll("[^\\d]", "");
-        List<String> meterList = new ArrayList<>();
-        for(int i = 0; i < meterString.length(); i++) {
-            char charValue = meterString.charAt(i);
-            int intValue = Character.getNumericValue(charValue);
-            if(intValue==1) {
-                meterList.add("/");
-            } else {
-                meterList.add("*");
-            }
-        }
-        String meter = meterList.toString().replaceAll(",", "");
-        meter = meter.replaceAll("\\[","");
-        meter = meter.replaceAll("\\]","");
-        meter = meter.replaceAll("\\s", "");
-        return meter;
-    }
+    // setMeter artifact before migration to Main
+
+//    public String setMeter(String word) throws IOException {
+//        Request request = new Request.Builder()
+//                .url("https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5")
+//                .build();
+//        Response response = Main.CLIENT.newCall(request).execute();
+//        JsonNode rootNode = Main.MAPPER.readTree(response.body().string());
+//        JsonNode resultOne = rootNode.path(0);
+//        JsonNode tagsNode = resultOne.path("tags");
+//        int proIndx = tagsNode.size()-1;
+//        JsonNode proNode = tagsNode.path(proIndx);
+//        String meterString = proNode.toString().replaceAll("[^\\d]", "");
+//        List<String> meterList = new ArrayList<>();
+//        for(int i = 0; i < meterString.length(); i++) {
+//            char charValue = meterString.charAt(i);
+//            int intValue = Character.getNumericValue(charValue);
+//            if(intValue==1) {
+//                meterList.add("/");
+//            } else {
+//                meterList.add("*");
+//            }
+//        }
+//        String meter = meterList.toString().replaceAll(",", "");
+//        meter = meter.replaceAll("\\[","");
+//        meter = meter.replaceAll("\\]","");
+//        meter = meter.replaceAll("\\s", "");
+//        return meter;
+//    }
 
     // old WordsAPI method
 //    public List<String> setSynonyms(String url) throws IOException {
@@ -194,8 +165,8 @@ public class Word {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        Response response = client.newCall(request).execute();
-        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        Response response = Main.CLIENT.newCall(request).execute();
+        JsonNode rootNode = Main.MAPPER.readTree(response.body().string());
         List<Synonym> synonyms = new ArrayList<>();
         for(int i = 0; i<rootNode.size(); i++) {
             JsonNode result = rootNode.path(i);
@@ -241,8 +212,8 @@ public class Word {
         return meter;
     }
 
-    public String getPos() {
-        return pos;
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -250,11 +221,11 @@ public class Word {
         return "Word {" +
                 "\n\tword = " + word + "\n" +
                 "\trhymes = " + rhymes + "\n" +
-                "\tsyllables = " + syllables + "\n" +
+//                "\tsyllables = " + syllables + "\n" +
                 "\tsyllablesCount = " + syllablesCountInt + "\n" +
                 "\tsynonyms = " + synonyms + "\n" +
                 "\tmeter = " + meter + "\n" +
-                "\tpart of speech = " + pos +
+                "\tpart of speech = " + type +
                 "\n}";
     }
 }

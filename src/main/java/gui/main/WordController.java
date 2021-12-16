@@ -6,14 +6,13 @@ import code.main.Word;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class WordController {
 
     // Stages
-    private final Stage primaryStage = Main.getPrimaryStage();
+//    private final Stage primaryStage = Main.getPrimaryStage();
 
     // Labels
     @FXML
@@ -96,7 +95,7 @@ public class WordController {
          */
         syllablesCount.setText(word.getSyllablesCountString());
         meterString.setText(word.getMeter());
-        typeString.setText(word.getPos());
+        typeString.setText(word.getType());
         // Set lists
 //        rhymesList.getItems().setAll(word.getRhymes());
 //        synonymsList.getItems().setAll(word.getSynonyms());
