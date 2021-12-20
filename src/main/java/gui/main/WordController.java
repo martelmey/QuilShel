@@ -87,28 +87,22 @@ public class WordController {
 
         // Test recursion of Synonym objects
         ObservableList<Synonym> synTableData = FXCollections.observableArrayList();
-
         for(int i = 0; i<word.getSynonyms().size(); i++) {
             // Testing
 //            String synonym = word.getSynonyms().get(i).getSynonym();
 //            System.out.println(synonym);
-
             synWordColumn.setCellValueFactory(new PropertyValueFactory<Synonym, String>("synonymProperty"));
-
             synTableData.addAll(word.getSynonyms().get(i));
         }
         synTable.setItems(synTableData);
 
         // Test recursion of Rhyme objects
         ObservableList<Rhyme> rhyTableData = FXCollections.observableArrayList();
-
         for(int i = 0; i<word.getRhymes().size(); i++) {
             // Testing
-            String rhyme = word.getRhymes().get(i).getRhyme();
-            System.out.println("Rhyme: " + rhyme);
-
+//            String rhyme = word.getRhymes().get(i).getRhyme();
+//            System.out.println("Rhyme: " + rhyme);
             rhyWordColumn.setCellValueFactory(new PropertyValueFactory<Rhyme, String>("rhymeProperty"));
-
             rhyTableData.addAll(word.getRhymes().get(i));
         }
         rhyTable.setItems(rhyTableData);
@@ -116,6 +110,7 @@ public class WordController {
         // Reset controls
         inputWord.clear();
         createWord.setDisable(true);
+
         // Set info labels
         wordValue.setText(s);
         /**
@@ -126,20 +121,22 @@ public class WordController {
         syllablesCount.setText(word.getSyllablesCountString());
         meterString.setText(word.getMeter());
         typeString.setText(word.getType());
-        // Set lists
+
+        // Set lists - legacy
 //        rhymesList.getItems().setAll(word.getRhymes());
 //        synonymsList.getItems().setAll(word.getSynonyms());
-        // Set tables
+
+        // Synonym table
         synWordColumn.setCellValueFactory(new PropertyValueFactory<>("synonym"));
         synSylColumn.setCellValueFactory(new PropertyValueFactory<>("syllables"));
         synMeterColumn.setCellValueFactory(new PropertyValueFactory<>("meter"));
         synTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
+        // Rhyme table
         rhyWordColumn.setCellValueFactory(new PropertyValueFactory<>("rhyme"));
         rhySylColumn.setCellValueFactory(new PropertyValueFactory<>("syllables"));
         rhyMeterColumn.setCellValueFactory(new PropertyValueFactory<>("meter"));
         rhyTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-//        synTable.getItems().add(new Synonym(word.getWord()));
     }
 
     /**

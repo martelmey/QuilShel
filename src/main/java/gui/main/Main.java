@@ -7,18 +7,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class Main extends Application {
+    // Cache
+    private static final String CACHE_DIR_STRING = "C:\\Users\\MXANA\\Desktop\\cache";
+    private static final File CACHE_DIR = new File(CACHE_DIR_STRING);
     // GUI
     private static Stage primaryStage;
     // API
-    public static final OkHttpClient CLIENT = new OkHttpClient();
+    private static final int CACHE_SIZE = 100 * 1024 * 1024; // 100 mb
+    public static Cache CACHE = new Cache(CACHE_DIR, CACHE_SIZE);
+    public static final OkHttpClient CLIENT = new OkHttpClient.Builder()
+            .cache(CACHE)
+            .build();
     public static final ObjectMapper MAPPER = new ObjectMapper();
     // Endpoints
     public static final String URL_BASE_WORDS_API = "https://wordsapiv1.p.rapidapi.com/words/";
@@ -35,8 +44,6 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         // Enable UI
         launch(args);
-
-//        setPOS("observe");
     }
 
     @Override
