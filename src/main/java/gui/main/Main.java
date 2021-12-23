@@ -1,5 +1,6 @@
 package gui.main;
 
+import code.main.Measure;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Application;
@@ -43,16 +44,19 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         // Enable UI
-        launch(args);
+//        launch(args);
+        Measure test = new Measure("travesty of justice");
+//        System.out.println(test);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/gui.word2.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/gui.word2.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui.measure.fxml"));
         primaryStage.setTitle("QuilShel");
-        primaryStage.setScene(new Scene(root, 800, 400));
+        primaryStage.setScene(new Scene(root, 800, 1000));
         primaryStage.show();
     }
 

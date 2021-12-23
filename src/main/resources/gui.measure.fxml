@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.WordController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.WordController">
    <children>
-      <AnchorPane prefHeight="39.0" prefWidth="800.0">
+      <AnchorPane prefHeight="40.0" prefWidth="800.0">
          <children>
             <Label layoutX="6.0" text="Word:">
                <font>
@@ -49,8 +49,8 @@
                </font>
             </Label>
          </children></AnchorPane>
-      <Separator prefWidth="600.0" />
-      <HBox prefHeight="300.0" prefWidth="800.0">
+      <Separator layoutY="40.0" prefWidth="800.0" />
+      <HBox layoutY="40.0" prefHeight="300.0" prefWidth="800.0">
          <children>
             <VBox prefHeight="300.0" prefWidth="400.0">
                <children>
@@ -88,11 +88,27 @@
             </VBox>
          </children>
       </HBox>
-      <AnchorPane prefHeight="73.0" prefWidth="800.0">
+      <AnchorPane layoutY="340.0" prefHeight="60.0" prefWidth="800.0">
          <children>
-            <TextField fx:id="inputWord" layoutX="14.0" layoutY="24.0" onKeyReleased="#handleKeyReleased" prefHeight="26.0" prefWidth="295.0" promptText="Type word here" />
+            <TextField fx:id="inputWord" layoutX="14.0" layoutY="23.0" onKeyReleased="#handleKeyReleased" prefHeight="26.0" prefWidth="295.0" promptText="Type word here" />
             <Button fx:id="createWord" layoutX="316.0" layoutY="24.0" mnemonicParsing="false" onAction="#onButtonClicked" text="Create" />
          </children>
       </AnchorPane>
+      <VBox layoutY="400.0" prefHeight="100.0" prefWidth="800.0">
+         <children>
+            <Separator layoutY="400.0" prefWidth="200.0" />
+            <Label text="Measures">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TableView prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="466.60000002384186" text="C1" />
+                <TableColumn minWidth="0.0" prefWidth="89.40005493164062" text="C2" />
+                  <TableColumn prefWidth="243.99996948242188" text="Column X" />
+              </columns>
+            </TableView>
+         </children></VBox>
    </children>
-</VBox>
+</AnchorPane>

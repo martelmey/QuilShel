@@ -2,19 +2,38 @@ package code.main;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Measure {
-    private String sentence;
+    private final String sentence;
+    private int syllables = 0;
+//    private final String meter;
 
-    public Measure() {
+//    private final SimpleStringProperty measureProperty;
+    private List<Word> words = new ArrayList<>();
 
-    }
+    public Measure(String sentence) throws IOException {
+        System.out.println("\tfrom Measure.class:");
 
-    public Measure(String sentence) {
         this.sentence = sentence;
+        // populate List<Word>
+        String[] wordList = this.sentence.split("\\s+");
+        for (String s : wordList) {
+            Word word = new Word(s);
+//            System.out.println(word);
+            this.words.add(word);
+        }
+        // iterate List<Word>, get Measure fields
+        for(int i = 0; i< Objects.requireNonNull(this.words).size(); i++) {
+            this.syllables += this.words.get(i).getSyllablesCountInt();
+//            System.out.println(this.words.get(i));
+        }
+        System.out.println(this.syllables);
+//        System.out.println("Measure constructor: "+this.sentence);
     }
 
     private List<String> pullWords(String sentence) {
@@ -45,10 +64,6 @@ public class Measure {
 
     public String getSentence() {
         return sentence;
-    }
-
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
     }
 
     @Override

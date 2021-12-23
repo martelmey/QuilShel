@@ -113,55 +113,6 @@ public class Word {
         return rhymes;
     }
 
-    // setMeter artifact before migration to Main
-
-//    public String setMeter(String word) throws IOException {
-//        Request request = new Request.Builder()
-//                .url("https://api.datamuse.com/words?ml=" + word + "&qe=ml&md=r&max=5")
-//                .build();
-//        Response response = Main.CLIENT.newCall(request).execute();
-//        JsonNode rootNode = Main.MAPPER.readTree(response.body().string());
-//        JsonNode resultOne = rootNode.path(0);
-//        JsonNode tagsNode = resultOne.path("tags");
-//        int proIndx = tagsNode.size()-1;
-//        JsonNode proNode = tagsNode.path(proIndx);
-//        String meterString = proNode.toString().replaceAll("[^\\d]", "");
-//        List<String> meterList = new ArrayList<>();
-//        for(int i = 0; i < meterString.length(); i++) {
-//            char charValue = meterString.charAt(i);
-//            int intValue = Character.getNumericValue(charValue);
-//            if(intValue==1) {
-//                meterList.add("/");
-//            } else {
-//                meterList.add("*");
-//            }
-//        }
-//        String meter = meterList.toString().replaceAll(",", "");
-//        meter = meter.replaceAll("\\[","");
-//        meter = meter.replaceAll("\\]","");
-//        meter = meter.replaceAll("\\s", "");
-//        return meter;
-//    }
-
-    // old WordsAPI method
-//    public List<String> setSynonyms(String url) throws IOException {
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .get()
-//                .addHeader("x-rapidapi-host", "wordsapiv1.p.rapidapi.com")
-//                .addHeader("x-rapidapi-key", "e852927068mshaf1458fd33faf58p1c06fcjsn9a05d5c4c695")
-//                .build();
-//        Response response = client.newCall(request).execute();
-//        JsonNode rootNode = objectMapper.readTree(response.body().string());
-//        JsonNode synonymsNode = rootNode.path("synonyms");
-//        List<String> synonyms = new ArrayList<>();
-//        for(int i = 0; i<synonymsNode.size(); i++) {
-//            String synonym = synonymsNode.path(i).toString();
-//            synonyms.add(synonym.replaceAll("\"", ""));
-//        }
-//        return synonyms;
-//    }
-
     public List<Synonym> setSynonyms(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
@@ -205,9 +156,6 @@ public class Word {
     public List<Synonym> getSynonyms() {
         return synonyms;
     }
-    //    public List<String> getSynonyms() {
-//        return synonyms;
-//    }
 
     public String getMeter() {
         return meter;
