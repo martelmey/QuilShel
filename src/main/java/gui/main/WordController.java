@@ -1,5 +1,6 @@
 package gui.main;
 
+import code.main.Measure;
 import code.main.Rhyme;
 import code.main.Synonym;
 import code.main.Word;
@@ -31,6 +32,10 @@ public class WordController {
     private TextField inputWord;
     @FXML
     private Button createWord;
+    @FXML
+    private TextField inputMeasure;
+    @FXML
+    private Button createMeasure;
 
     // Lists
     @FXML
@@ -65,14 +70,16 @@ public class WordController {
     @FXML
     public void initialize() {
         createWord.setDisable(true);
+        // re-enable once isDictionaryWord() is improved
+//        createMeasure.setDisable(true);
     }
     /**
-     * onButtonClicked
+     * onWordButtonClicked
      * create Word object
      * from contents of inputWord
      */
     @FXML
-    public void onButtonClicked() throws IOException {
+    public void onWordButtonClicked() throws IOException {
         /**
          * TESTS
          * 1. remove whitespace from inputWord.getText();
@@ -139,15 +146,35 @@ public class WordController {
         rhyTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
+    @FXML
+    public void onMeasureButtonClicked() throws IOException {
+        String measureString = inputMeasure.getText();
+//        System.out.println("Measure: " + measureString);
+        Measure measure = new Measure(measureString);
+
+//        String[] words = measureString.split("\\s+");
+//        for(int i = 0; i<words.length; i++) {
+//            System.out.println("Word " + i+1 + ": " + words[i]);
+//        }
+    }
+
     /**
      * handleKeyReleased
      * enable createWord button
      * if inputWord field is not empty
+     * enable createMeasure button
+     * if inputMeasure has at least 1 dictionary word
      */
     @FXML
-    public void handleKeyReleased() {
-        String text = inputWord.getText();
-        boolean disableButtons = text.isEmpty() || text.trim().isEmpty();
-        createWord.setDisable(disableButtons);
+    public void handleKeyReleased() throws IOException {
+        String wordText = inputWord.getText();
+        boolean disableWordButton = wordText.isEmpty() || wordText.trim().isEmpty();
+        createWord.setDisable(disableWordButton);
+
+        // re-enable below
+        // once improved Main.isDictionaryWord() is done
+//        String measureText = inputMeasure.getText();
+//        boolean disableMeasureButton =! Main.isDictionaryWord(measureText);
+//        createMeasure.setDisable(disableMeasureButton);
     }
 }

@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.WordController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.main.WordController">
    <children>
-      <AnchorPane prefHeight="39.0" prefWidth="800.0">
+      <AnchorPane prefHeight="40.0" prefWidth="800.0">
          <children>
             <Label layoutX="6.0" text="Word:">
                <font>
@@ -49,8 +49,8 @@
                </font>
             </Label>
          </children></AnchorPane>
-      <Separator prefWidth="600.0" />
-      <HBox prefHeight="300.0" prefWidth="800.0">
+      <Separator layoutY="40.0" prefWidth="800.0" />
+      <HBox layoutY="40.0" prefHeight="300.0" prefWidth="800.0">
          <children>
             <VBox prefHeight="300.0" prefWidth="400.0">
                <children>
@@ -88,11 +88,29 @@
             </VBox>
          </children>
       </HBox>
-      <AnchorPane prefHeight="73.0" prefWidth="800.0">
+      <AnchorPane layoutY="335.0" prefHeight="70.0" prefWidth="800.0">
          <children>
-            <TextField fx:id="inputWord" layoutX="14.0" layoutY="24.0" onKeyReleased="#handleKeyReleased" prefHeight="26.0" prefWidth="295.0" promptText="Type word here" />
-            <Button fx:id="createWord" layoutX="316.0" layoutY="24.0" mnemonicParsing="false" onAction="#onWordButtonClicked" text="Create" />
+            <Button fx:id="createMeasure" layoutX="747.0" layoutY="23.0" mnemonicParsing="false" onAction="#onMeasureButtonClicked" text="Add" />
+            <TextField fx:id="inputWord" layoutX="14.0" layoutY="23.0" onKeyReleased="#handleKeyReleased" prefHeight="26.0" prefWidth="184.0" promptText="Type word here" />
+            <Button fx:id="createWord" layoutX="206.0" layoutY="24.0" mnemonicParsing="false" onAction="#onWordButtonClicked" text="Lookup" />
+            <TextField fx:id="inputMeasure" layoutX="276.0" layoutY="22.0" onKeyReleased="#handleKeyReleased" prefHeight="26.0" prefWidth="461.0" promptText="Type measure here" />
          </children>
       </AnchorPane>
+      <VBox layoutY="400.0" prefHeight="200.0" prefWidth="800.0">
+         <children>
+            <Separator layoutY="400.0" prefWidth="200.0" />
+            <Label text="Measures ( List&lt;Measures&gt; )">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TableView prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="436.19999998807907" text="Sentence" />
+                <TableColumn minWidth="0.0" prefWidth="120.5999755859375" text="Total Syllables" />
+                  <TableColumn prefWidth="243.99993896484375" text="Total Meter" />
+              </columns>
+            </TableView>
+         </children></VBox>
    </children>
-</VBox>
+</AnchorPane>

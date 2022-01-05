@@ -44,8 +44,8 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         // Enable UI
-//        launch(args);
-        Measure test = new Measure("travesty of justice");
+        launch(args);
+//        Measure test = new Measure("travesty of justice");
 //        System.out.println(test);
     }
 
@@ -54,9 +54,10 @@ public class Main extends Application {
         Main.primaryStage = primaryStage;
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui.main.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui.word2.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/gui.measure.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/gui.measure.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui.measure2.fxml"));
         primaryStage.setTitle("QuilShel");
-        primaryStage.setScene(new Scene(root, 800, 1000));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
@@ -177,7 +178,11 @@ public class Main extends Application {
         JsonNode rootNode = MAPPER.readTree(response.body().string());
         JsonNode wordNode = rootNode.path("word");
         String compareString = wordNode.toString();
+        // testing inputMeasure isDictionaryWord
+//        System.out.println(compareString);
         compareString = compareString.replaceAll("\"", "");
+        // testing inputMeasure isDictionaryWord
+//        System.out.println(compareString);
         return compareString.equals(word);
     }
     // test

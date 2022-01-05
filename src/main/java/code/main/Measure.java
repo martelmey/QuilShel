@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Measure {
     private final String sentence;
     private int syllables = 0;
-//    private final String meter;
+    private  String meter;
 
 //    private final SimpleStringProperty measureProperty;
     private List<Word> words = new ArrayList<>();
@@ -20,20 +20,37 @@ public class Measure {
         System.out.println("\tfrom Measure.class:");
 
         this.sentence = sentence;
+
         // populate List<Word>
         String[] wordList = this.sentence.split("\\s+");
         for (String s : wordList) {
             Word word = new Word(s);
-//            System.out.println(word);
             this.words.add(word);
+
+//            System.out.println("Word " + count + ": " + s);
         }
-        // iterate List<Word>, get Measure fields
+
+        // iterate List<Word>, increment this.syllables per Word
         for(int i = 0; i< Objects.requireNonNull(this.words).size(); i++) {
             this.syllables += this.words.get(i).getSyllablesCountInt();
-//            System.out.println(this.words.get(i));
         }
-        System.out.println(this.syllables);
-//        System.out.println("Measure constructor: "+this.sentence);
+
+        // iterate List<Word>, get Measure fields
+//        int count = 1;
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i< Objects.requireNonNull(this.words).size(); i++) {
+//            String m = this.words.get(i).getMeter();
+            sb.append(this.words.get(i).getMeter());
+
+//            System.out.println("Meter for word " + count + ": " + m);
+//            System.out.println("Meter string is now: " + sb + "\n");
+//            count+=1;
+            this.meter = sb.toString();
+        }
+
+        System.out.println("Measure: "+this.sentence + "\n" +
+                "Syllables: "+this.syllables + "\n" +
+                "Meter: "+this.meter);
     }
 
     private List<String> pullWords(String sentence) {
