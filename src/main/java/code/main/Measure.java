@@ -13,6 +13,8 @@ public class Measure {
     private int syllables = 0;
     private  String meter;
 
+    private final SimpleStringProperty measureProperty;
+
 //    private final SimpleStringProperty measureProperty;
     private List<Word> words = new ArrayList<>();
 
@@ -40,7 +42,7 @@ public class Measure {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i< Objects.requireNonNull(this.words).size(); i++) {
 //            String m = this.words.get(i).getMeter();
-            sb.append(this.words.get(i).getMeter());
+            sb.append(this.words.get(i).getMeter()).append(" ");
 
 //            System.out.println("Meter for word " + count + ": " + m);
 //            System.out.println("Meter string is now: " + sb + "\n");
@@ -48,9 +50,16 @@ public class Measure {
             this.meter = sb.toString();
         }
 
-        System.out.println("Measure: "+this.sentence + "\n" +
-                "Syllables: "+this.syllables + "\n" +
-                "Meter: "+this.meter);
+//        System.out.println("Measure: "+this.sentence + "\n" +
+//                "Syllables: "+this.syllables + "\n" +
+//                "Meter: "+this.meter);
+
+        this.measureProperty = new SimpleStringProperty(this.sentence);
+    }
+
+
+    public SimpleStringProperty measurePropertyProperty() {
+        return measureProperty;
     }
 
     private List<String> pullWords(String sentence) {
@@ -83,8 +92,30 @@ public class Measure {
         return sentence;
     }
 
+    public int getSyllables() {
+        return syllables;
+    }
+
+    public String getMeter() {
+        return meter;
+    }
+
+    public String getMeasureProperty() {
+        return measureProperty.get();
+    }
+
+    public List<Word> getWords() {
+        return words;
+    }
+
     @Override
     public String toString() {
-        return sentence;
+        return "Measure{" +
+                "sentence='" + sentence + '\'' +
+                ", syllables=" + syllables +
+                ", meter='" + meter + '\'' +
+                ", measureProperty=" + measureProperty +
+                ", words=" + words +
+                '}';
     }
 }

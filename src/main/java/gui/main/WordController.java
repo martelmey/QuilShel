@@ -1,9 +1,6 @@
 package gui.main;
 
-import code.main.Measure;
-import code.main.Rhyme;
-import code.main.Synonym;
-import code.main.Word;
+import code.main.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -67,11 +64,24 @@ public class WordController {
     @FXML
     private TableColumn<Rhyme, String> rhyTypeColumn;
 
+    // Measures table & columns
+    @FXML
+    private TableView<Measure> mesTable;
+    @FXML
+    private TableColumn<Measure, String> mesSentenceColumn;
+    @FXML
+    private TableColumn<Measure, Integer> mesSylColumn;
+    @FXML
+    private TableColumn<Measure, String> mesMeterColumn;
+
+    private Stanza stanza;
+
     @FXML
     public void initialize() {
         createWord.setDisable(true);
         // re-enable once isDictionaryWord() is improved
 //        createMeasure.setDisable(true);
+        this.stanza = new Stanza();
     }
     /**
      * onWordButtonClicked
@@ -148,14 +158,22 @@ public class WordController {
 
     @FXML
     public void onMeasureButtonClicked() throws IOException {
-        String measureString = inputMeasure.getText();
-//        System.out.println("Measure: " + measureString);
-        Measure measure = new Measure(measureString);
+        Measure measure = new Measure(inputMeasure.getText());
+        this.stanza.appendMeasure(measure);
+        this.stanza.printMeasures();
 
-//        String[] words = measureString.split("\\s+");
-//        for(int i = 0; i<words.length; i++) {
-//            System.out.println("Word " + i+1 + ": " + words[i]);
-//        }
+        ObservableList<Measure> mesTableData = FXCollections.observableArrayList();
+        for(int i = 0; i<this.stanza.getMeasures().size(); i++) {
+            String measureTest = this.stanza.getMeasures().get(i).getMeasureProperty();
+            System.out.println("measureTest: "+measureTest);
+//            mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<Measure, String>("measureProperty"));
+//            mesTableData.addAll(this.stanza.getMeasures().get(i));
+        }
+//        mesTable.setItems(mesTableData);
+
+//        mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<Measure, String>("measureProperty"));
+//        mesTableData.addAll(measure);
+//        mesTable.setItems(mesTableData);
     }
 
     /**

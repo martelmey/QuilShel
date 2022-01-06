@@ -7,38 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Stanza {
-    private int number;
-    private List<Bar> bars = new ArrayList<>();
+//    private int number;
+    private List<Measure> measures = new ArrayList<>();
 
     public Stanza() {
-
     }
 
-
-    public int getNumber() {
-        return number;
+    public void appendMeasure(Measure measure) {
+//        System.out.println("\tfrom Stanza.class:" + "\n" +
+//                "New measure: "+measure.getSentence());
+        this.measures.add(measure);
+//        System.out.println("Measure list: "+"\n\t"+this.measures.toString());
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public List<Measure> getMeasures() {
+        return measures;
     }
 
-    public List<Bar> getBars() {
-        return bars;
-    }
-
-    public void setBars(List<Bar> bars) {
-        this.bars = bars;
-    }
-
-    @Override
-    public String toString() {
-        String printOut;
-        if (bars.size() == 1) {
-            printOut = "Stanza " + number + " ( " + bars.size() + " bar )";
-        } else {
-            printOut = "Stanza " + number + "( " + bars.size() + " bars )";
+    public void printMeasures() {
+        System.out.println("\tprinting Stanza: ");
+        int count = 1;
+        for(int i = 0; i<this.measures.size(); i++) {
+            System.out.println("Measure "+count+": "+this.measures.get(i).getSentence());
+            count+=1;
         }
-        return printOut;
     }
 }

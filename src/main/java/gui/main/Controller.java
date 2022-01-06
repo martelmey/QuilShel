@@ -93,8 +93,8 @@ public class Controller {
                     // Fill Bar observable list
                     // with objects from List<Bar>
                     // from selected Stanza object in list
-                    ObservableList<Bar> bars = FXCollections.observableArrayList(stanza.getBars());
-                    barListView.setItems(bars);
+//                    ObservableList<Bar> bars = FXCollections.observableArrayList(stanza.getBars());
+//                    barListView.setItems(bars);
 
                     barListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Bar>() {
                         @Override
