@@ -66,7 +66,7 @@ public class WordController {
 
     // Measures table & columns
     @FXML
-    private TableView<Measure> mesTable;
+    private TableView<Measure> mesTable = new TableView<Measure>();
     @FXML
     private TableColumn<Measure, String> mesSentenceColumn;
     @FXML
@@ -83,11 +83,7 @@ public class WordController {
 //        createMeasure.setDisable(true);
         this.stanza = new Stanza();
     }
-    /**
-     * onWordButtonClicked
-     * create Word object
-     * from contents of inputWord
-     */
+
     @FXML
     public void onWordButtonClicked() throws IOException {
         /**
@@ -106,8 +102,11 @@ public class WordController {
         ObservableList<Synonym> synTableData = FXCollections.observableArrayList();
         for(int i = 0; i<word.getSynonyms().size(); i++) {
             // Testing
+//            String synonymTest = word.getSynonyms().get(i).getSynonymProperty();
+//            System.out.println("\tsynonymTest:"+synonymTest);
 //            String synonym = word.getSynonyms().get(i).getSynonym();
 //            System.out.println(synonym);
+
             synWordColumn.setCellValueFactory(new PropertyValueFactory<Synonym, String>("synonymProperty"));
             synTableData.addAll(word.getSynonyms().get(i));
         }
@@ -158,22 +157,57 @@ public class WordController {
 
     @FXML
     public void onMeasureButtonClicked() throws IOException {
+        // add new Measure to Stanza
         Measure measure = new Measure(inputMeasure.getText());
         this.stanza.appendMeasure(measure);
-        this.stanza.printMeasures();
 
+        // Test printouts of Stanza
+//        this.stanza.printMeasures();
+
+        // create ObservableList
         ObservableList<Measure> mesTableData = FXCollections.observableArrayList();
-        for(int i = 0; i<this.stanza.getMeasures().size(); i++) {
-            String measureTest = this.stanza.getMeasures().get(i).getMeasureProperty();
-            System.out.println("measureTest: "+measureTest);
-//            mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<Measure, String>("measureProperty"));
-//            mesTableData.addAll(this.stanza.getMeasures().get(i));
-        }
-//        mesTable.setItems(mesTableData);
+        int count = 1;
 
-//        mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<Measure, String>("measureProperty"));
-//        mesTableData.addAll(measure);
+        // iterate over stanza, add each Measure in Stanza to ObservableList
+        for(int i = 0; i<this.stanza.getMeasures().size(); i++) {
+            // add each Measure to ObservableList
+            mesTableData.addAll(this.stanza.getMeasures().get(i));
+
+            // column set try 1
+//            mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSentence"));
+//            mesSylColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSyllables"));
+//            mesMeterColumn.setCellValueFactory(new PropertyValueFactory<>("simpleMeter"));
+
+            count+=1;
+        }
+
+        // Test printouts of ObservableList
+        int count2 = 1;
+        for(int i = 0; i<mesTableData.size(); i++) {
+            String testSimpleSentence = mesTableData.get(i).getSimpleSentence();
+            int testSimpleSyllables = mesTableData.get(i).getSimpleSyllables();
+            String testSimpleMeter = mesTableData.get(i).getSimpleMeter();
+
+            System.out.println("\tmesTableData: " + "size=" + mesTableData.size() + "\n" +
+                    "\titem #" + count2 + ": " + "\n" +
+                    "simpleSentence: " + testSimpleSentence + "\n" +
+                    "simpleSyllables: " + testSimpleSyllables + "\n" +
+                    "simpleMeter: " + testSimpleMeter + "\n");
+
+            count2+=1;
+        }
+
+        // list of Measures applied to table
 //        mesTable.setItems(mesTableData);
+//
+        // column set try 2
+//        mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSentence"));
+//        mesSylColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSyllables"));
+//        mesMeterColumn.setCellValueFactory(new PropertyValueFactory<>("simpleMeter"));
+
+        // reset controls
+        inputMeasure.clear();
+//        createMeasure.setDisable(true);
     }
 
     /**

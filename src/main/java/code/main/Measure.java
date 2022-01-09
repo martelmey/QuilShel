@@ -1,5 +1,6 @@
 package code.main;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.io.IOException;
@@ -11,15 +12,16 @@ import java.util.Objects;
 public class Measure {
     private final String sentence;
     private int syllables = 0;
-    private  String meter;
+    private String meter;
 
-    private final SimpleStringProperty measureProperty;
-
-//    private final SimpleStringProperty measureProperty;
     private List<Word> words = new ArrayList<>();
 
+    private final SimpleStringProperty simpleSentence;
+    private final SimpleIntegerProperty simpleSyllables;
+    private final SimpleStringProperty simpleMeter;
+
     public Measure(String sentence) throws IOException {
-        System.out.println("\tfrom Measure.class:");
+//        System.out.println("\tfrom Measure.class:");
 
         this.sentence = sentence;
 
@@ -54,12 +56,38 @@ public class Measure {
 //                "Syllables: "+this.syllables + "\n" +
 //                "Meter: "+this.meter);
 
-        this.measureProperty = new SimpleStringProperty(this.sentence);
+        this.simpleSentence = new SimpleStringProperty(this.sentence);
+        this.simpleSyllables = new SimpleIntegerProperty(this.syllables);
+        this.simpleMeter = new SimpleStringProperty(this.meter);
+
+        // Test printouts
+//        System.out.println("simpleSentence: "+this.simpleSentence);
+//        System.out.println("simpleSyllables: "+this.simpleSyllables);
+//        System.out.println("simpleMeter: "+this.simpleMeter);
     }
 
+    public String getSimpleSentence() {
+        return simpleSentence.get();
+    }
 
-    public SimpleStringProperty measurePropertyProperty() {
-        return measureProperty;
+    public SimpleStringProperty simpleSentenceProperty() {
+        return simpleSentence;
+    }
+
+    public int getSimpleSyllables() {
+        return simpleSyllables.get();
+    }
+
+    public SimpleIntegerProperty simpleSyllablesProperty() {
+        return simpleSyllables;
+    }
+
+    public String getSimpleMeter() {
+        return simpleMeter.get();
+    }
+
+    public SimpleStringProperty simpleMeterProperty() {
+        return simpleMeter;
     }
 
     private List<String> pullWords(String sentence) {
@@ -100,10 +128,6 @@ public class Measure {
         return meter;
     }
 
-    public String getMeasureProperty() {
-        return measureProperty.get();
-    }
-
     public List<Word> getWords() {
         return words;
     }
@@ -114,7 +138,7 @@ public class Measure {
                 "sentence='" + sentence + '\'' +
                 ", syllables=" + syllables +
                 ", meter='" + meter + '\'' +
-                ", measureProperty=" + measureProperty +
+                ", measureProperty=" + simpleSentence +
                 ", words=" + words +
                 '}';
     }
