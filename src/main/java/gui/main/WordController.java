@@ -198,12 +198,12 @@ public class WordController {
         }
 
         // list of Measures applied to table
-//        mesTable.setItems(mesTableData);
-//
+        mesTable.setItems(mesTableData);
+
         // column set try 2
-//        mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSentence"));
-//        mesSylColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSyllables"));
-//        mesMeterColumn.setCellValueFactory(new PropertyValueFactory<>("simpleMeter"));
+        mesSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSentence"));
+        mesSylColumn.setCellValueFactory(new PropertyValueFactory<>("simpleSyllables"));
+        mesMeterColumn.setCellValueFactory(new PropertyValueFactory<>("simpleMeter"));
 
         // reset controls
         inputMeasure.clear();

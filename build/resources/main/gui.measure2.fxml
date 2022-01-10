@@ -104,11 +104,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="mesTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="436.19999998807907" text="Sentence" />
-                <TableColumn minWidth="0.0" prefWidth="120.5999755859375" text="Total Syllables" />
-                  <TableColumn prefWidth="243.99993896484375" text="Total Meter" />
+                <TableColumn fx:id="mesSentenceColumn" prefWidth="436.19999998807907" text="Sentence" />
+                <TableColumn fx:id="mesSylColumn" minWidth="0.0" prefWidth="120.5999755859375" text="Total Syllables" />
+                  <TableColumn fx:id="mesMeterColumn" prefWidth="243.99993896484375" text="Total Meter" />
               </columns>
             </TableView>
          </children></VBox>
